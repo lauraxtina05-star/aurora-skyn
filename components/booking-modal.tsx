@@ -139,6 +139,11 @@ export default function BookingModal({ open, onClose, links }: BookingModalProps
         ))}
       </ul>
 
+      <p className="booking-note">
+        In-person appointments are completed through our booking system in a new tab. Keep Aurora Skyn open so you can
+        easily return and continue exploring.
+      </p>
+
       <div className="booking-discovery">
         <p className="eyebrow navy">Not sure where to start?</p>
         <p className="booking-discovery-lede">Book a complimentary 15-minute Discovery Call.</p>
@@ -156,8 +161,6 @@ export default function BookingModal({ open, onClose, links }: BookingModalProps
           Book a Discovery Call <ArrowIcon />
         </a>
       </div>
-
-      <p className="booking-secure">Booking is completed securely through Fresha. Aurora Skyn will remain open while you book.</p>
     </dialog>
   );
 }
