@@ -1,7 +1,7 @@
 'use client';
 /* oxlint-disable next/no-img-element -- Supplied editorial assets use CSS-controlled responsive crops. */
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import BookingModal, { type BookingLinks } from '@/components/booking-modal';
 import CalendlyModal from '@/components/calendly-modal';
 import MailerLite from '@/components/mailerlite';
@@ -103,6 +103,46 @@ export default function Home() {
   const virtualTriggerRef = useRef<HTMLButtonElement | null>(null);
   const discoveryTriggerRef = useRef<HTMLButtonElement | null>(null);
   const reviewCount = testimonials.length;
+  const anyModalOpen = bookingOpen || virtualOpen || discoveryOpen;
+
+  // Single source of truth for the background scroll lock. Each modal
+  // (BookingModal, and both CalendlyModal instances) only ever manages its
+  // own open state — this is the only place that touches document.body, so
+  // there's no race between separate lock/unlock effects when one modal
+  // hands off to another (e.g. the in-spa modal's Discovery row closing
+  // itself and opening the Discovery Calendly modal in the same update:
+  // anyModalOpen stays true the whole time, so this effect doesn't even
+  // re-run). Uses position:fixed rather than bare overflow:hidden, which is
+  // the reliable cross-browser way to stop background scroll on iOS Safari,
+  // and restores the exact scroll position when the last modal closes.
+  useEffect(() => {
+    if (!anyModalOpen) return;
+    const scrollY = window.scrollY;
+    const body = document.body;
+    const previous = {
+      position: body.style.position,
+      top: body.style.top,
+      left: body.style.left,
+      right: body.style.right,
+      width: body.style.width,
+      overflow: body.style.overflow,
+    };
+    body.style.position = 'fixed';
+    body.style.top = `-${scrollY}px`;
+    body.style.left = '0';
+    body.style.right = '0';
+    body.style.width = '100%';
+    body.style.overflow = 'hidden';
+    return () => {
+      body.style.position = previous.position;
+      body.style.top = previous.top;
+      body.style.left = previous.left;
+      body.style.right = previous.right;
+      body.style.width = previous.width;
+      body.style.overflow = previous.overflow;
+      window.scrollTo(0, scrollY);
+    };
+  }, [anyModalOpen]);
 
   // Soft, one-shot reveals for a handful of section moments as they scroll into view.
   const { ref: philosophyRef, className: philosophyRevealClass } = useReveal<HTMLElement>();

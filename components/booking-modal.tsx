@@ -27,18 +27,13 @@ export default function BookingModal({ open, onClose, onOpenDiscovery, links }: 
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
-    if (open && !dialog.open) dialog.showModal();
-    else if (!open && dialog.open) dialog.close();
-  }, [open]);
-
-  // Lock background scroll only while open; always restore on close/unmount.
-  useEffect(() => {
-    if (!open) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = previous;
-    };
+    try {
+      if (open && !dialog.open) dialog.showModal();
+      else if (!open && dialog.open) dialog.close();
+    } catch {
+      // Defensive only — keeps a thrown InvalidStateError from leaving
+      // dialog.open out of sync with the open prop.
+    }
   }, [open]);
 
   // Native close (Escape / dialog.close()) and outside-the-panel clicks.

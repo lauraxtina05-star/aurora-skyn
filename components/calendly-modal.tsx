@@ -55,17 +55,13 @@ export default function CalendlyModal({ open, onClose, title, subtitle, calendly
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
-    if (open && !dialog.open) dialog.showModal();
-    else if (!open && dialog.open) dialog.close();
-  }, [open]);
-
-  useEffect(() => {
-    if (!open) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = previous;
-    };
+    try {
+      if (open && !dialog.open) dialog.showModal();
+      else if (!open && dialog.open) dialog.close();
+    } catch {
+      // Defensive only — keeps a thrown InvalidStateError from leaving
+      // dialog.open out of sync with the open prop.
+    }
   }, [open]);
 
   useEffect(() => {
