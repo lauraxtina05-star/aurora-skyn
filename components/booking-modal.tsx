@@ -4,20 +4,22 @@ import { useEffect, useRef } from 'react';
 import { ArrowIcon } from '@/components/icons';
 
 export type BookingLinks = {
-  virtual: string;
   inSpa: string;
   redEye: string;
   teethWhitening: string;
-  discoveryCall: string;
+  /** No confirmed Fresha service URL yet — see the Teeth Gems row below. */
+  teethGems?: string;
 };
 
 type BookingModalProps = {
   open: boolean;
   onClose: () => void;
+  /** Opens the separate Discovery Call Calendly modal (closes this one first). */
+  onOpenDiscovery: () => void;
   links: BookingLinks;
 };
 
-export default function BookingModal({ open, onClose, links }: BookingModalProps) {
+export default function BookingModal({ open, onClose, onOpenDiscovery, links }: BookingModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   // Sync React state -> native <dialog>. showModal() gives us the focus trap,
@@ -74,27 +76,24 @@ export default function BookingModal({ open, onClose, links }: BookingModalProps
     };
   }, [onClose]);
 
+  function handleOpenDiscovery() {
+    onClose();
+    onOpenDiscovery();
+  }
+
   const options = [
-    {
-      label: 'Virtual',
-      title: 'Virtual Skyn Experience',
-      meta: '60 min · $125',
-      href: links.virtual,
-      cta: 'Book Virtual',
-      variant: '',
-    },
     {
       label: 'In person',
       title: 'In-Spa Experiences',
-      meta: 'Explore available facials and appointments.',
+      meta: 'Explore Jasmine’s available facial and personal skincare experiences.',
       href: links.inSpa,
-      cta: 'Explore In-Spa',
+      cta: 'View In-Spa Availability',
       variant: '',
     },
     {
       label: 'Specialty',
       title: 'Red-Eye Recovery Facial',
-      meta: 'A smaller featured treatment for flight attendants, frequent flyers, and travel-stressed skyn.',
+      meta: 'Created with flight attendants, frequent flyers, and travel-stressed skyn in mind.',
       href: links.redEye,
       cta: 'Book Red-Eye Recovery',
       variant: 'booking-row--specialty',
@@ -107,6 +106,14 @@ export default function BookingModal({ open, onClose, links }: BookingModalProps
       cta: 'Explore Teeth Whitening',
       variant: 'booking-row--secondary',
     },
+    {
+      label: 'Add-on',
+      title: 'Teeth Gems',
+      meta: 'A subtle sparkle added to your smile.',
+      href: links.teethGems,
+      cta: 'Explore Teeth Gems',
+      variant: 'booking-row--secondary',
+    },
   ];
 
   return (
@@ -117,10 +124,10 @@ export default function BookingModal({ open, onClose, links }: BookingModalProps
 
       <div className="booking-head">
         <p className="eyebrow gold">Book with Aurora Skyn</p>
-        <h2 id="booking-modal-title">How would you like to work with me?</h2>
+        <h2 id="booking-modal-title">Choose Your In-Spa Experience</h2>
         <p id="booking-modal-desc">
-          Choose the experience that feels closest to what you need right now. If you’re still unsure, we can figure it out
-          together.
+          Aurora Skyn offers personal and specialty services in Pompano Beach, Florida. Choose where you’d like to begin,
+          or explore the full menu if you want to see everything available.
         </p>
       </div>
 
@@ -132,12 +139,20 @@ export default function BookingModal({ open, onClose, links }: BookingModalProps
               <h3>{option.title}</h3>
               <p>{option.meta}</p>
             </div>
-            <a className="booking-row-cta" href={option.href} target="_blank" rel="noopener noreferrer" onClick={onClose}>
-              {option.cta} <ArrowIcon />
-            </a>
+            {option.href ? (
+              <a className="booking-row-cta" href={option.href} target="_blank" rel="noopener noreferrer" onClick={onClose}>
+                {option.cta} <ArrowIcon />
+              </a>
+            ) : (
+              <span className="booking-row-pending">Booking link coming soon</span>
+            )}
           </li>
         ))}
       </ul>
+
+      <a className="booking-full-menu" href={links.inSpa} target="_blank" rel="noopener noreferrer" onClick={onClose}>
+        View the Full In-Spa Menu <ArrowIcon />
+      </a>
 
       <p className="booking-note">
         In-person appointments are completed through our booking system in a new tab. Keep Aurora Skyn open so you can
@@ -151,15 +166,9 @@ export default function BookingModal({ open, onClose, links }: BookingModalProps
           Tell me a little about what you’re looking for and I’ll help you decide which Aurora Skyn experience makes the
           most sense. Depending on what you need, we can also talk about combining virtual and in-person support.
         </p>
-        <a
-          className="booking-row-cta"
-          href={links.discoveryCall}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={onClose}
-        >
+        <button type="button" className="booking-row-cta booking-discovery-cta" onClick={handleOpenDiscovery}>
           Book a Discovery Call <ArrowIcon />
-        </a>
+        </button>
       </div>
     </dialog>
   );

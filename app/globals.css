@@ -6,7 +6,7 @@
 .hero{min-height:850px;background:var(--navy);color:var(--ivory);display:grid;grid-template-columns:minmax(0,46%) minmax(400px,54%);position:relative;overflow:hidden}.hero-copy{padding:clamp(170px,20vh,225px) clamp(30px,5.2vw,90px) 180px;z-index:2}.hero h1{font-size:clamp(4.5rem,7vw,8.3rem);max-width:750px;margin:30px 0 34px}.hero h1 em{color:var(--gold)}.hero-lede{font-size:1.08rem;max-width:530px;color:#ece5db}.button-row{display:flex;align-items:center;gap:32px;margin-top:42px;flex-wrap:wrap}.button{display:inline-flex;min-height:54px;align-items:center;justify-content:center;padding:14px 25px;text-transform:uppercase;letter-spacing:.1em;font-weight:600;font-size:.75rem;transition:transform .2s,background .2s}.button:hover{transform:translateY(-2px)}.button-gold{background:var(--gold);color:var(--navy)}.text-link{color:var(--ivory);border-bottom:1px solid currentColor;padding-bottom:5px;font-size:.82rem;text-transform:uppercase;letter-spacing:.11em}.text-link span{margin-left:12px}.hero-image-wrap{position:relative;min-height:850px;clip-path:polygon(10% 0,100% 0,100% 94%,78% 100%,0 87%,4% 45%)}.hero-image-wrap:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(28,42,74,.2),transparent 32%)}.hero-image-wrap img{height:100%;object-fit:cover;object-position:52% center}.spark{position:absolute;z-index:2;left:5%;top:22%;font-size:2.8rem;color:var(--gold);animation:spark-float 6s ease-in-out infinite}.vertical-note{position:absolute;z-index:2;right:22px;bottom:12%;writing-mode:vertical-rl;font-size:.63rem;letter-spacing:.2em}
 .curved-top{position:relative}.curved-top:before{content:"";position:absolute;left:0;top:-80px;width:58%;height:90px;background:var(--ivory);border-radius:0 100% 0 0}.philosophy{padding:150px clamp(24px,8vw,130px) 170px;background:var(--ivory)}.section-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.18em;border-top:1px solid var(--navy);padding-top:14px;width:140px}.philosophy-copy{display:grid;grid-template-columns:1.45fr .55fr;gap:8vw;align-items:end;margin-top:60px}.philosophy h2{font-size:clamp(3.8rem,6vw,7.4rem);margin:0}.philosophy h2 em{color:var(--sky)}.philosophy-body p{max-width:460px;margin:0 0 24px}
 .experiences{background:var(--sand);padding:160px clamp(24px,8vw,130px);display:grid;grid-template-columns:.7fr 1.3fr;gap:9vw;clip-path:ellipse(115% 70% at 50% 50%)}.split-heading h2{font-size:clamp(3.5rem,5vw,6rem);margin:35px 0}.split-heading>p:last-child{max-width:360px}.pathway{display:grid;grid-template-columns:45px 1fr auto;gap:22px;align-items:center;border-top:1px solid rgba(28,42,74,.3);padding:25px 4px;transition:padding .25s}.pathway:hover{padding-left:14px}.pathway>span{font-size:.7rem;letter-spacing:.15em}.pathway h3{font-size:clamp(1.65rem,2.3vw,2.5rem);margin:0 0 7px}.pathway p{margin:0;max-width:560px;font-size:.92rem}.teeth-mini{display:flex;justify-content:space-between;border-top:1px solid var(--navy);padding-top:18px;margin-top:18px;text-transform:uppercase;letter-spacing:.1em;font-size:.75rem}
-.clarity{position:relative;background:var(--sky);padding:170px clamp(24px,8vw,130px);display:grid;grid-template-columns:1.1fr .9fr;gap:9vw;overflow:hidden}.clarity:before{content:"";position:absolute;top:-90px;left:-5%;width:110%;height:130px;background:var(--sand);border-radius:0 0 50% 50%}.clarity-art{position:absolute;left:-60px;bottom:-160px;width:42%;opacity:.1;mix-blend-mode:multiply}.clarity-main{position:relative;z-index:1}.clarity h2{font-size:clamp(4.2rem,6.5vw,7.7rem);margin:32px 0}.subhead{font-family:var(--serif);font-size:1.45rem;max-width:600px}.price{font:500 3rem/1 var(--serif);margin:35px 0 18px}.price span{font:600 .67rem/1 var(--sans);letter-spacing:.12em;text-transform:uppercase}.clarity-lede{font-weight:500;font-size:1.07rem}.button-navy{background:var(--navy);color:var(--ivory);margin-top:20px}.clarity-list{align-self:center}.clarity-list div{display:grid;grid-template-columns:40px 1fr;border-bottom:1px solid rgba(28,42,74,.35);padding:23px 0}.clarity-list b{font-size:.66rem;letter-spacing:.14em}
+.clarity{position:relative;background:var(--sky);padding:170px clamp(24px,8vw,130px);display:grid;grid-template-columns:1.1fr .9fr;gap:9vw;overflow:hidden}.clarity:before{content:"";position:absolute;top:-90px;left:-5%;width:110%;height:130px;background:var(--sand);border-radius:0 0 50% 50%}.clarity-art{position:absolute;left:-60px;bottom:-160px;width:42%;opacity:.1;mix-blend-mode:multiply}.clarity-main{position:relative;z-index:1}.clarity h2{font-size:clamp(4.2rem,6.5vw,7.7rem);margin:32px 0}.subhead{font-family:var(--serif);font-size:1.45rem;max-width:600px}.price{font:500 3rem/1 var(--serif);margin:35px 0 18px}.price span{font:600 .67rem/1 var(--sans);letter-spacing:.12em;text-transform:uppercase}.button-navy{background:var(--navy);color:var(--ivory);margin-top:20px}.clarity-list{align-self:center}.clarity-list div{display:grid;grid-template-columns:40px 1fr;border-bottom:1px solid rgba(28,42,74,.35);padding:23px 0}.clarity-list b{font-size:.66rem;letter-spacing:.14em}
 .process-section{padding:160px clamp(24px,8vw,130px);background:var(--ivory)}.process-statement{display:grid;grid-template-columns:auto 1fr;gap:25px;max-width:1120px;margin:65px auto 110px}.process-statement>span{font:8rem/.7 var(--serif);color:var(--gold)}.process-statement h2{font-size:clamp(3.6rem,5.4vw,6.8rem);margin:0}.process{list-style:none;padding:0;margin:0;display:flex;border-top:1px solid rgba(28,42,74,.35);overflow:hidden}.process li{flex:1;padding:20px 8px;writing-mode:vertical-rl;font:500 clamp(1.4rem,2.2vw,2.4rem)/1 var(--serif);min-height:245px;border-right:1px solid rgba(28,42,74,.2)}.process li:nth-child(even){padding-top:65px}.process li span{font:500 .6rem/1 var(--sans);letter-spacing:.12em;margin-bottom:10px}
 .real-skyn{padding:140px clamp(24px,6vw,100px);background:var(--navy);color:var(--ivory);display:grid;grid-template-columns:.62fr 1.38fr;gap:6vw;align-items:end}.real-copy h2{font-size:clamp(4rem,5.8vw,7rem);margin:30px 0}.real-copy h2 em{color:var(--gold)}.client-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;align-items:end}.client-grid figure{margin:0;overflow:hidden}.client-grid figure:nth-child(2){transform:translateY(-55px)}.client-grid img{height:clamp(390px,44vw,650px);object-fit:cover}
 .in-spa{background:var(--navy);color:var(--ivory);display:grid;grid-template-columns:1fr 1fr;padding:70px clamp(24px,6vw,100px) 150px;gap:8vw}.spa-image{min-height:720px;clip-path:polygon(0 5%,88% 0,100% 92%,12% 100%)}.spa-image img{height:100%;object-fit:cover;object-position:49% center}.spa-copy{align-self:center;max-width:590px}.spa-copy h2{font-size:clamp(4rem,5vw,6.5rem);margin:35px 0}.spa-copy em{color:var(--gold)}.spa-copy>p:not(.eyebrow){font-size:1.05rem}.spa-copy ul{list-style:none;padding:0;margin:34px 0;border-top:1px solid rgba(255,255,255,.25)}.spa-copy li{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.25)}.button-ivory{background:var(--ivory);color:var(--navy)}
@@ -257,3 +257,52 @@ button:hover .arrow-icon,button:focus-visible .arrow-icon{transform:translateX(4
 .about-image,.portrait-story-main{overflow:hidden}
 .about-image img,.portrait-story-main img{transition:transform .6s ease}
 .about-image:hover img,.portrait-story-main:hover img{transform:scale(1.018)}
+
+/* ============================================================
+   Booking-logic pass — Calendly-embedded Virtual + Discovery,
+   in-spa-only booking modal, editorial Virtual Skyn photo.
+   ============================================================ */
+
+/* .text-link and .booking-row-cta are now sometimes rendered as <button>s
+   (Discovery CTAs, the in-spa modal's Discovery row) rather than only <a>s —
+   reset native button chrome while keeping their underline intact. */
+.text-link{background:none;padding:0 0 5px;border:0;border-bottom:1px solid currentColor;cursor:pointer;font:inherit;text-transform:uppercase;letter-spacing:.11em}
+.booking-row-cta{background:none;padding:0 0 6px;border:0;border-bottom:1px solid var(--navy);cursor:pointer;font:600 .72rem/1 var(--sans)}
+
+/* Virtual Skyn Experience: an editorial photo tucked beside the offer, not a
+   full-width image. Sits at a lower stacking layer than the copy columns
+   (both of which get z-index:1 below) so it can overlap into the gap between
+   them without ever covering the price, CTA, or list text. */
+.clarity-list{position:relative;z-index:1}
+.clarity-photo{position:absolute;z-index:0;right:clamp(18px,6vw,70px);bottom:12%;width:clamp(220px,23vw,330px);aspect-ratio:4/3;overflow:hidden;border-radius:4px;border:9px solid var(--ivory);box-shadow:0 34px 80px -30px rgba(16,24,45,.4)}
+.clarity-photo img{width:100%;height:100%;object-fit:cover;object-position:52% 30%}
+@media(max-width:900px){
+  .clarity-photo{position:static;width:100%;max-width:420px;aspect-ratio:4/3;margin:36px 0 0;border-width:8px}
+}
+@media(max-width:560px){
+  .clarity-photo{max-width:100%;border-width:6px;aspect-ratio:5/4}
+  .clarity-photo img{object-position:52% 26%}
+}
+
+/* In-spa booking modal: Teeth Gems has no confirmed URL yet — a clearly
+   non-interactive placeholder rather than a dead link. */
+.booking-row-pending{flex:none;font:600 .68rem/1 var(--sans);text-transform:uppercase;letter-spacing:.08em;color:#a39d90;white-space:nowrap}
+
+/* In-spa booking modal: small secondary route to the full Fresha menu — not
+   the dominant option, sits quietly under the row list. */
+.booking-full-menu{display:inline-flex;align-items:center;gap:8px;margin:22px 0 0;font:600 .72rem/1 var(--sans);text-transform:uppercase;letter-spacing:.1em;color:#8a857c;border-bottom:1px solid rgba(28,42,74,.3);padding-bottom:5px;transition:color .2s ease,border-color .2s ease}
+.booking-full-menu:hover,.booking-full-menu:focus-visible{color:var(--berry);border-color:var(--berry)}
+
+/* Discovery band's CTA is a <button> now (opens the Discovery Calendly modal
+   rather than linking out directly) — same look as the row CTAs above it. */
+.booking-discovery-cta{display:inline-flex;align-items:center;gap:9px;white-space:nowrap}
+
+/* ---------- Calendly modal: same shell as the booking modal, its own content ---------- */
+.calendly-head{margin-bottom:22px}
+.calendly-widget{width:100%;min-height:640px}
+@media(max-width:560px){
+  .calendly-widget{min-height:520px}
+}
+
+/* ---------- Footer: phone + hours ---------- */
+.footer-hours-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.15em;color:var(--gold);margin-top:6px}

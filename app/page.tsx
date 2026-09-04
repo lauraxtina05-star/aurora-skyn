@@ -3,6 +3,7 @@
 
 import { useCallback, useRef, useState } from 'react';
 import BookingModal, { type BookingLinks } from '@/components/booking-modal';
+import CalendlyModal from '@/components/calendly-modal';
 import MailerLite from '@/components/mailerlite';
 import { ArrowIcon, ChevronIcon } from '@/components/icons';
 import { useReveal } from '@/hooks/use-reveal';
@@ -23,12 +24,21 @@ const links = {
 };
 
 const bookingLinks: BookingLinks = {
-  virtual: links.virtual,
   inSpa: links.inSpa,
   redEye: links.redEye,
   teethWhitening: links.teethWhitening,
-  discoveryCall: links.discoveryCall,
+  // No confirmed Fresha service URL for Teeth Gems yet — checked the project and
+  // found none. Leave unset; the modal shows a clearly-marked "coming soon" state
+  // instead of guessing at a destination. Add the real URL here once it exists.
+  teethGems: undefined,
 };
+
+// Calendly's own (non-hacky) color customization — see their embed docs.
+const CALENDLY_ACCENT_COLOR = 'c21875'; // Berry Magenta, no leading #
+
+function withCalendlyAccent(url: string) {
+  return `${url}&primary_color=${CALENDLY_ACCENT_COLOR}`;
+}
 
 const pathways = [
   ['01', 'The Virtual Skyn Experience', '60 minutes of private virtual guidance, with a personalized roadmap and journal to keep.', '#virtual'],
@@ -86,8 +96,12 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [slide, setSlide] = useState(0);
   const [bookingOpen, setBookingOpen] = useState(false);
+  const [virtualOpen, setVirtualOpen] = useState(false);
+  const [discoveryOpen, setDiscoveryOpen] = useState(false);
   const touchX = useRef<number | null>(null);
   const bookingTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const virtualTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const discoveryTriggerRef = useRef<HTMLButtonElement | null>(null);
   const reviewCount = testimonials.length;
 
   // Soft, one-shot reveals for a handful of section moments as they scroll into view.
@@ -128,6 +142,42 @@ export default function Home() {
     }
   }, []);
 
+  const openVirtual = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+    virtualTriggerRef.current = event.currentTarget;
+    setMenuOpen(false);
+    setVirtualOpen(true);
+  }, []);
+
+  const closeVirtual = useCallback(() => {
+    setVirtualOpen(false);
+    const trigger = virtualTriggerRef.current;
+    if (trigger && document.contains(trigger)) {
+      setTimeout(() => trigger.focus(), 0);
+    }
+  }, []);
+
+  const openDiscovery = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+    discoveryTriggerRef.current = event.currentTarget;
+    setMenuOpen(false);
+    setDiscoveryOpen(true);
+  }, []);
+
+  const closeDiscovery = useCallback(() => {
+    setDiscoveryOpen(false);
+    const trigger = discoveryTriggerRef.current;
+    if (trigger && document.contains(trigger)) {
+      setTimeout(() => trigger.focus(), 0);
+    }
+  }, []);
+
+  // The in-spa modal's Discovery Call row hands off to the same Discovery
+  // Calendly modal, but there's no click event to capture a trigger button
+  // from — return focus to the in-spa modal's own trigger instead.
+  const openDiscoveryFromBookingModal = useCallback(() => {
+    discoveryTriggerRef.current = bookingTriggerRef.current;
+    setDiscoveryOpen(true);
+  }, []);
+
   const review = testimonials[slide];
 
   return (
@@ -153,7 +203,7 @@ export default function Home() {
           <h1>Going deeper than <em>skin deep.</em></h1>
           <p className="hero-lede">At Aurora Skyn, I help you understand what may be changing with your skin, simplify your routine, and make more confident decisions about what you’re using.</p>
           <div className="button-row">
-            <a className="button button-coral" href={links.virtual} target="_blank" rel="noopener noreferrer">Book the Virtual Skyn Experience</a>
+            <button className="button button-coral" type="button" onClick={openVirtual}>Book the Virtual Skyn Experience</button>
             <a className="text-link" href="#in-spa">Explore In-Spa Care <ArrowIcon /></a>
           </div>
         </div>
@@ -224,9 +274,11 @@ export default function Home() {
           <h2>The Virtual Skyn<br /><em>Experience</em></h2>
           <p className="subhead">A 60-minute private virtual session, plus everything I review before we meet.</p>
           <div className="price">$125 <span>60 minutes</span></div>
-          <p className="clarity-lede">This is the full paid virtual experience, not a free consultation.</p>
           <p>Before we meet, I go through your pre-session intake, your bare-skin photos, your current routine and products, and the lifestyle and environment patterns that seem relevant. During our private session I educate, simplify, guide, and give you clear next steps you can actually follow.</p>
-          <a className="button button-berry" href={links.virtual} target="_blank" rel="noopener noreferrer">Book Your Virtual Skyn Experience</a>
+          <button className="button button-berry" type="button" onClick={openVirtual}>Book Your Virtual Skyn Experience</button>
+        </div>
+        <div className="clarity-photo">
+          <img src="/images/jasmine-virtual-skyn.jpg" alt="Jasmine glancing through green foliage in a colorful floral top" />
         </div>
         <div className="clarity-list">
           <div><b>01</b><span>Pre-session intake + bare-skin photos</span></div>
@@ -246,7 +298,7 @@ export default function Home() {
             <li>Whether virtual or in-person care makes more sense</li>
             <li>Exploring a custom combination if it fits</li>
           </ul>
-          <a className="text-link dark" href={links.discoveryCall} target="_blank" rel="noopener noreferrer">Book a Discovery Call <ArrowIcon /></a>
+          <button className="text-link dark" type="button" onClick={openDiscovery}>Book a Discovery Call <ArrowIcon /></button>
           <p className="discovery-note">Some clients need one experience. Others benefit from a mix of virtual and in-person care. If you’re unsure, I can help you figure out the best place to begin.</p>
         </div>
       </section>
@@ -273,7 +325,7 @@ export default function Home() {
           <p className="eyebrow gold">Kind words</p>
           <h2>What clients<br /><em>say.</em></h2>
           <p className="testimonial-rating">
-            <span aria-hidden="true">★★★★★</span> 5.0 · 28 reviews on Fresha
+            <span aria-hidden="true">★★★★★</span> 5.0 on Fresha
           </p>
         </div>
         <div className="testimonial-stage" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} aria-live="polite">
@@ -362,16 +414,35 @@ export default function Home() {
       <section className="final-cta">
         <p className="eyebrow">Start with clarity.</p>
         <h2>Still confused about<br />what your skyn needs?</h2>
-        <a className="button button-gold" href={links.discoveryCall} target="_blank" rel="noopener noreferrer">Book a Discovery Call</a>
+        <button className="button button-gold" type="button" onClick={openDiscovery}>Book a Discovery Call</button>
       </section>
 
       <footer>
         <div className="footer-brand"><img src="/images/logo-light.png" alt="Aurora Skyn" /><p>Going deeper than skin deep.</p></div>
-        <div className="footer-links"><div><b>Explore</b><a href="#virtual">Virtual</a><a href="#in-spa">In Spa</a><a href="#about">About Jasmine</a><a href="#testimonials">Reviews</a></div><div><b>Connect</b><a href={links.instagram} target="_blank" rel="noopener noreferrer">Instagram</a><a href={links.email}>wellness@auroraskyn.com</a><a href={links.inSpa} target="_blank" rel="noopener noreferrer">Book an Appointment</a></div></div>
+        <div className="footer-links"><div><b>Explore</b><a href="#virtual">Virtual</a><a href="#in-spa">In Spa</a><a href="#about">About Jasmine</a><a href="#testimonials">Reviews</a></div><div><b>Connect</b><a href={links.instagram} target="_blank" rel="noopener noreferrer">Instagram</a><a href={links.email}>wellness@auroraskyn.com</a><a href={links.inSpa} target="_blank" rel="noopener noreferrer">Book an Appointment</a></div><div><b>Visit</b><a href="tel:+15615652165">561-565-2165</a><span className="footer-hours-label">Hours</span><a href={links.inSpa} target="_blank" rel="noopener noreferrer">By Appointment Only</a></div></div>
         <div className="footer-bottom"><p>© 2026 Aurora Skyn</p><div><span>Privacy</span><span>Disclaimer</span><span>Terms</span></div><p>Digital Experience by ONYX Creatrix</p></div>
       </footer>
 
-      <BookingModal open={bookingOpen} onClose={closeBooking} links={bookingLinks} />
+      <BookingModal
+        open={bookingOpen}
+        onClose={closeBooking}
+        onOpenDiscovery={openDiscoveryFromBookingModal}
+        links={bookingLinks}
+      />
+      <CalendlyModal
+        open={virtualOpen}
+        onClose={closeVirtual}
+        title="Book Your Virtual Skyn Experience"
+        subtitle="Choose a time that works for you and we’ll take it from there."
+        calendlyUrl={withCalendlyAccent(links.virtual)}
+      />
+      <CalendlyModal
+        open={discoveryOpen}
+        onClose={closeDiscovery}
+        title="Book Your Discovery Call"
+        subtitle="Choose a time for a complimentary 15-minute conversation with Jasmine."
+        calendlyUrl={withCalendlyAccent(links.discoveryCall)}
+      />
     </main>
   );
 }
