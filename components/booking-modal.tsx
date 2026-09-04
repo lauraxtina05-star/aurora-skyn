@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { ArrowIcon } from '@/components/icons';
 
 export type BookingLinks = {
   virtual: string;
@@ -132,7 +133,7 @@ export default function BookingModal({ open, onClose, links }: BookingModalProps
               <p>{option.meta}</p>
             </div>
             <a className="booking-row-cta" href={option.href} target="_blank" rel="noopener noreferrer" onClick={onClose}>
-              {option.cta} <span aria-hidden="true">↗</span>
+              {option.cta} <ArrowIcon />
             </a>
           </li>
         ))}
@@ -152,7 +153,7 @@ export default function BookingModal({ open, onClose, links }: BookingModalProps
           rel="noopener noreferrer"
           onClick={onClose}
         >
-          Book a Discovery Call <span aria-hidden="true">↗</span>
+          Book a Discovery Call <ArrowIcon />
         </a>
       </div>
 

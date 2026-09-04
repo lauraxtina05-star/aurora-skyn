@@ -4,6 +4,8 @@
 import { useCallback, useRef, useState } from 'react';
 import BookingModal, { type BookingLinks } from '@/components/booking-modal';
 import MailerLite from '@/components/mailerlite';
+import { ArrowIcon, ChevronIcon } from '@/components/icons';
+import { useReveal } from '@/hooks/use-reveal';
 
 const links = {
   // Real Aurora Skyn Fresha service URLs.
@@ -45,9 +47,21 @@ const testimonials = [
   },
   {
     quote:
+      'Jasmine is highly skilled, professional, caring, and has such a calming energy. She made me feel comfortable right away, explained everything in detail, and helped me understand what was happening with my skin and the products I was using. I left glowing, smooth, and hydrated.',
+    name: 'Carole F.',
+    detail: 'Facial experience',
+  },
+  {
+    quote:
       'Jasmine hosted a spa party for our group and took care of every detail. She was professional and flexible with our schedule, and it’s clear how much she knows. The space was calm and spotless, the products felt lovely, and the whole experience was easy and relaxing.',
     name: 'Jamila T.',
     detail: 'Spa party',
+  },
+  {
+    quote:
+      'Absolutely loved my facial experience. Jasmine is so knowledgeable, patient, and loving with her work. I woke up with my skin feeling smooth, radiant, and nourished.',
+    name: 'Laura G.',
+    detail: 'Facial experience',
   },
   {
     quote:
@@ -55,11 +69,17 @@ const testimonials = [
     name: 'Emily F.',
     detail: 'Facial experience',
   },
+  {
+    quote: 'Beautiful workspace, and Jasmine offers top-tier service and hospitality.',
+    name: 'Bre’anne A.',
+    detail: 'In-spa visit',
+  },
+  {
+    quote: 'Such a wonderful experience and beautiful person. I need these on a monthly basis.',
+    name: 'Seddy A.',
+    detail: 'In-spa visit',
+  },
 ];
-
-function Arrow() {
-  return <span aria-hidden="true">↗</span>;
-}
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -68,6 +88,15 @@ export default function Home() {
   const touchX = useRef<number | null>(null);
   const bookingTriggerRef = useRef<HTMLButtonElement | null>(null);
   const reviewCount = testimonials.length;
+
+  // Soft, one-shot reveals for a handful of section moments as they scroll into view.
+  const { ref: philosophyRef, className: philosophyRevealClass } = useReveal<HTMLElement>();
+  const { ref: portraitStoryRef, className: portraitStoryRevealClass } = useReveal<HTMLElement>();
+  const { ref: virtualRef, className: virtualRevealClass } = useReveal<HTMLElement>();
+  const { ref: aboutImageRef, className: aboutImageRevealClass } = useReveal<HTMLDivElement>();
+  const { ref: aboutCopyRef, className: aboutCopyRevealClass } = useReveal<HTMLDivElement>();
+  const { ref: ritualRef, className: ritualRevealClass } = useReveal<HTMLElement>();
+  const { ref: testimonialHeadRef, className: testimonialHeadRevealClass } = useReveal<HTMLDivElement>();
 
   function goTo(direction: number) {
     setSlide((current) => (current + direction + reviewCount) % reviewCount);
@@ -113,7 +142,7 @@ export default function Home() {
           <a href="#in-spa" onClick={() => setMenuOpen(false)}>In Spa</a>
           <a href="#testimonials" onClick={() => setMenuOpen(false)}>Reviews</a>
           <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
-          <button className="nav-cta" type="button" onClick={openBooking}>Book <Arrow /></button>
+          <button className="nav-cta" type="button" onClick={openBooking}>Book <ArrowIcon /></button>
         </nav>
       </header>
 
@@ -124,7 +153,7 @@ export default function Home() {
           <p className="hero-lede">At Aurora Skyn, I help you understand what may be changing with your skin, simplify your routine, and make more confident decisions about what you’re using.</p>
           <div className="button-row">
             <a className="button button-coral" href={links.virtual} target="_blank" rel="noopener noreferrer">Book the Virtual Skyn Experience</a>
-            <a className="text-link" href="#in-spa">Explore In-Spa Care <Arrow /></a>
+            <a className="text-link" href="#in-spa">Explore In-Spa Care <ArrowIcon /></a>
           </div>
         </div>
         <div className="hero-image-wrap reveal delay-1">
@@ -134,7 +163,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="philosophy curved-top">
+      <section ref={philosophyRef} className={`philosophy curved-top ${philosophyRevealClass}`}>
         <div className="section-label">My philosophy</div>
         <div className="philosophy-copy">
           <h2>Your skin changes.<br />Your routine can change <em>with it.</em></h2>
@@ -145,7 +174,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="portrait-story" aria-label="Aurora Skyn philosophy in photographs">
+      <section
+        ref={portraitStoryRef}
+        className={`portrait-story ${portraitStoryRevealClass}`}
+        aria-label="Aurora Skyn philosophy in photographs"
+      >
         <figure className="portrait-story-main">
           <img src="/images/hero.jpg" alt="Jasmine standing beside a large tree at sunset in a gold outfit" />
         </figure>
@@ -175,15 +208,15 @@ export default function Home() {
                 key={title}
                 {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               >
-                <span>{number}</span><div><h3>{title}</h3><p>{description}</p></div><Arrow />
+                <span>{number}</span><div><h3>{title}</h3><p>{description}</p></div><ArrowIcon />
               </a>
             );
           })}
-          <a className="teeth-mini" href={links.teethWhitening} target="_blank" rel="noopener noreferrer">Professional Teeth Whitening <Arrow /></a>
+          <a className="teeth-mini" href={links.teethWhitening} target="_blank" rel="noopener noreferrer">Professional Teeth Whitening <ArrowIcon /></a>
         </div>
       </section>
 
-      <section id="virtual" className="clarity">
+      <section id="virtual" ref={virtualRef} className={`clarity ${virtualRevealClass}`}>
         <div className="clarity-art" aria-hidden="true"><img src="/images/face-outline.png" alt="" /></div>
         <div className="clarity-main">
           <p className="eyebrow">The main virtual experience</p>
@@ -212,7 +245,7 @@ export default function Home() {
             <li>Whether virtual or in-person care makes more sense</li>
             <li>Exploring a custom combination if it fits</li>
           </ul>
-          <a className="text-link dark" href={links.discoveryCall} target="_blank" rel="noopener noreferrer">Book a Discovery Call <Arrow /></a>
+          <a className="text-link dark" href={links.discoveryCall} target="_blank" rel="noopener noreferrer">Book a Discovery Call <ArrowIcon /></a>
           <p className="discovery-note">Some clients need one experience. Others benefit from a mix of virtual and in-person care. If you’re unsure, I can help you figure out the best place to begin.</p>
         </div>
       </section>
@@ -235,9 +268,12 @@ export default function Home() {
       </section>
 
       <section id="testimonials" className="testimonials" aria-roledescription="carousel" aria-label="Client reviews">
-        <div className="testimonial-head">
+        <div ref={testimonialHeadRef} className={`testimonial-head ${testimonialHeadRevealClass}`}>
           <p className="eyebrow gold">Kind words</p>
           <h2>What clients<br /><em>say.</em></h2>
+          <p className="testimonial-rating">
+            <span aria-hidden="true">★★★★★</span> 5.0 · 28 reviews on Fresha
+          </p>
         </div>
         <div className="testimonial-stage" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} aria-live="polite">
           <blockquote key={slide}>
@@ -246,7 +282,7 @@ export default function Home() {
           </blockquote>
         </div>
         <div className="testimonial-controls">
-          <button type="button" onClick={() => goTo(-1)} aria-label="Previous review">←</button>
+          <button type="button" onClick={() => goTo(-1)} aria-label="Previous review"><ChevronIcon direction="left" /></button>
           <div className="testimonial-dots">
             {testimonials.map((item, index) => (
               <button
@@ -259,9 +295,9 @@ export default function Home() {
               />
             ))}
           </div>
-          <button type="button" onClick={() => goTo(1)} aria-label="Next review">→</button>
+          <button type="button" onClick={() => goTo(1)} aria-label="Next review"><ChevronIcon direction="right" /></button>
         </div>
-        <a className="testimonial-more" href={links.reviews} target="_blank" rel="noopener noreferrer">Read more reviews on Fresha <Arrow /></a>
+        <a className="testimonial-more" href={links.reviews} target="_blank" rel="noopener noreferrer">Read more reviews on Fresha <ArrowIcon /></a>
       </section>
 
       <section id="in-spa" className="in-spa">
@@ -279,30 +315,35 @@ export default function Home() {
         </div>
       </section>
 
-      <aside className="teeth-strip"><p><span>Additional service</span><strong>Professional Teeth Whitening</strong>A quick, standalone service I offer alongside skincare.</p><a href={links.teethWhitening} target="_blank" rel="noopener noreferrer">Book on Fresha <Arrow /></a></aside>
+      <aside className="teeth-strip"><p><span>Additional service</span><strong>Professional Teeth Whitening</strong>A quick, standalone service I offer alongside skincare.</p><a href={links.teethWhitening} target="_blank" rel="noopener noreferrer">Book on Fresha <ArrowIcon /></a></aside>
 
       <section id="about" className="about">
-        <div className="about-image"><img src="/images/jasmine-orange-dress.jpg" alt="Jasmine, founder of Aurora Skyn, outdoors in an orange floral dress" /></div>
-        <div className="about-copy">
+        <div ref={aboutImageRef} className={`about-image ${aboutImageRevealClass}`}>
+          <img src="/images/jasmine-orange-dress.jpg" alt="Jasmine, founder of Aurora Skyn, outdoors in an orange floral dress" />
+        </div>
+        <div
+          ref={aboutCopyRef}
+          className={`about-copy ${aboutCopyRevealClass}`}
+          style={{ transitionDelay: '140ms' }}
+        >
           <p className="eyebrow navy">Licensed esthetician + skin educator</p>
           <h2>Hi, I’m <em>Jasmine.</em></h2>
           <p>My approach to skincare has always been about looking a little deeper. I love a good facial and beautiful products, but I’ve never believed that skin exists in a bubble.</p>
           <p>I pay attention to the things happening around your skin too. Your routine, stress, environment, travel, what you’ve been using, what’s changed, and the patterns you’ve been noticing.</p>
           <p>That curiosity is what led me toward a more holistic approach to esthetics. I love blending professional skincare with thoughtful rituals like facial cupping, gua sha, sound, and moments that help you slow down and actually enjoy taking care of yourself.</p>
           <p>Aurora Skyn is where all of those pieces come together. I want you to leave feeling cared for, more informed, and more confident about what your skin needs next.</p>
-          <p className="signature">Jasmine</p>
         </div>
         <img className="about-star" src="/images/star.png" alt="" aria-hidden="true" />
       </section>
 
-      <section className="ritual" id="ritual">
+      <section className={`ritual ${ritualRevealClass}`} id="ritual" ref={ritualRef}>
         <div className="ritual-copy"><p className="eyebrow gold">Sound + ritual</p><h2>Skincare can be a place to slow down, too.</h2><p>Sound, breath, and sensory ritual are part of the way I create space for relaxation during select Aurora Skyn experiences. For me, taking care of your skin can also be a moment to reconnect with yourself.</p></div>
         <img src="/images/sound-bath-action.jpg" alt="Jasmine seated with crystal singing bowls in a warm, calm room" />
       </section>
 
       <section className="products">
         <div className="product-image"><img src="/images/products.jpg" alt="A collection of Aurora Skyn oils, scrubs, and skincare products" /></div>
-        <div className="product-copy"><p className="eyebrow navy">Purposeful products</p><h2>What goes on your skyn should have a reason for being there.</h2><p>I don’t want you buying a product simply because it’s trending. I recommend Aurora Skyn or professional products when they make sense for what your skin actually needs.</p><a className="text-link dark" href={links.inSpa} target="_blank" rel="noopener noreferrer">Shop Aurora Skyn <Arrow /></a></div>
+        <div className="product-copy"><p className="eyebrow navy">Purposeful products</p><h2>What goes on your skyn should have a reason for being there.</h2><p>I don’t want you buying a product simply because it’s trending. I recommend Aurora Skyn or professional products when they make sense for what your skin actually needs.</p><a className="text-link dark" href={links.inSpa} target="_blank" rel="noopener noreferrer">Shop Aurora Skyn <ArrowIcon /></a></div>
         <img className="product-detail" src="/images/oil-detail.jpg" alt="Aurora Skyn face oil and glass dropper on a mirror" />
       </section>
 
@@ -317,7 +358,7 @@ export default function Home() {
       <section className="final-cta">
         <p className="eyebrow">Start with clarity.</p>
         <h2>Still confused about<br />what your skyn needs?</h2>
-        <button className="button button-gold" type="button" onClick={openBooking}>Book with Aurora Skyn</button>
+        <a className="button button-gold" href={links.discoveryCall} target="_blank" rel="noopener noreferrer">Book a Discovery Call</a>
       </section>
 
       <footer>
