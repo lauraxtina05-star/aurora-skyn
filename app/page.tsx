@@ -365,7 +365,7 @@ export default function Home() {
       <section id="testimonials" className="testimonials" aria-roledescription="carousel" aria-label="Client reviews">
         <div ref={testimonialHeadRef} className={`testimonial-head ${testimonialHeadRevealClass}`}>
           <p className="eyebrow gold">Kind words</p>
-          <h2>What clients<br /><em>say.</em></h2>
+          <h2>The Aurora Skyn Effect</h2>
           <p className="testimonial-rating">
             <span aria-hidden="true">★★★★★</span> 5.0 on Fresha
           </p>
@@ -461,7 +461,7 @@ export default function Home() {
 
       <footer>
         <div className="footer-brand"><img src="/images/logo-light.png" alt="Aurora Skyn" /><p>Going deeper than skin deep.</p></div>
-        <div className="footer-links"><div><b>Explore</b><a href="#virtual">Virtual</a><a href="#in-spa">In Spa</a><a href="#about">About Jasmine</a><a href="#testimonials">Reviews</a></div><div><b>Connect</b><a href={links.instagram} target="_blank" rel="noopener noreferrer">Instagram</a><a href={links.email}>wellness@auroraskyn.com</a><a href={links.inSpa} target="_blank" rel="noopener noreferrer">Book an Appointment</a></div><div><b>Visit</b><a href="tel:+15615652165">561-565-2165</a><span className="footer-hours-label">Hours</span><a href={links.inSpa} target="_blank" rel="noopener noreferrer">By Appointment Only</a></div></div>
+        <div className="footer-links"><div><b>Explore</b><a href="#virtual">Virtual</a><a href="#in-spa">In Spa</a><a href="#about">About Jasmine</a><a href="#testimonials">Reviews</a></div><div><b>Connect</b><a href={links.instagram} target="_blank" rel="noopener noreferrer">Instagram</a><a href={links.email}>wellness@auroraskyn.com</a><a href="tel:+15615652165">561-565-2165</a><a href={links.inSpa} target="_blank" rel="noopener noreferrer">Book an Appointment</a></div><div><b>Visit</b><span>Pompano Beach, Florida</span><span>South Cypress Road</span><span>Full address provided upon booking</span><span className="footer-hours-label">Hours</span><a href={links.inSpa} target="_blank" rel="noopener noreferrer">By Appointment Only</a></div></div>
         <div className="footer-bottom"><p>© 2026 Aurora Skyn</p><div><span>Privacy</span><span>Disclaimer</span><span>Terms</span></div><p>Digital Experience by ONYX Creatrix</p></div>
       </footer>
 
