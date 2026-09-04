@@ -462,7 +462,7 @@ export default function Home() {
       <footer>
         <div className="footer-brand"><img src="/images/logo-light.png" alt="Aurora Skyn" /><p>Going deeper than skin deep.</p></div>
         <div className="footer-links"><div><b>Explore</b><a href="#virtual">Virtual</a><a href="#in-spa">In Spa</a><a href="#about">About Jasmine</a><a href="#testimonials">Reviews</a></div><div><b>Connect</b><a href={links.instagram} target="_blank" rel="noopener noreferrer">Instagram</a><a href={links.email}>wellness@auroraskyn.com</a><a href="tel:+15615652165">561-565-2165</a><a href={links.inSpa} target="_blank" rel="noopener noreferrer">Book an Appointment</a></div><div><b>Visit</b><span>Pompano Beach, Florida</span><span>South Cypress Road</span><span>Full address provided upon booking</span><span className="footer-hours-label">Hours</span><a href={links.inSpa} target="_blank" rel="noopener noreferrer">By Appointment Only</a></div></div>
-        <div className="footer-bottom"><p>© 2026 Aurora Skyn</p><div><span>Privacy</span><span>Disclaimer</span><span>Terms</span></div><p>Digital Experience by ONYX Creatrix</p></div>
+        <div className="footer-bottom"><p>© 2026 Aurora Skyn</p><div><span>Privacy</span><span>Disclaimer</span><span>Terms</span></div><p>Digital Experience by <a href="https://onyxcreatrix.com/" target="_blank" rel="noopener noreferrer">ONYX Creatrix</a></p></div>
       </footer>
 
       <BookingModal
