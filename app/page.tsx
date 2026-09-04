@@ -1,24 +1,37 @@
 'use client';
 /* oxlint-disable next/no-img-element -- Supplied editorial assets use CSS-controlled responsive crops. */
 
-import { useRef, useState, type SyntheticEvent } from 'react';
+import { useCallback, useRef, useState } from 'react';
+import BookingModal, { type BookingLinks } from '@/components/booking-modal';
+import MailerLite from '@/components/mailerlite';
 
 const links = {
-  // Real Aurora Skyn Fresha destinations.
-  booking: 'https://www.fresha.com/a/aurora-skyn-pompano-beach-s-cypress-rd-yx7qe4e9/booking?allOffer=true&pId=1231654',
+  // Real Aurora Skyn Fresha service URLs.
+  virtual: 'https://www.fresha.com/book-now/aurora-skyn-hmifnwoh/services?lid=1297352&eid=2998182&oiid=sv%3A29119158&share=true&pId=1231654',
+  // General Aurora Skyn services list (no single service pre-selected) — also used
+  // for the broad "in-spa / explore all / shop" entry points.
+  inSpa: 'https://www.fresha.com/book-now/aurora-skyn-hmifnwoh/services?lid=1297352&eid=2998182&share=true&pId=1231654',
+  redEye: 'https://www.fresha.com/book-now/aurora-skyn-hmifnwoh/services?lid=1297352&eid=2998182&oiid=sv%3A28811121&share=true&pId=1231654',
+  teethWhitening: 'https://www.fresha.com/book-now/aurora-skyn-hmifnwoh/services?lid=1297352&eid=2998182&oiid=sv%3A18176254&share=true&pId=1231654',
   reviews: 'https://www.fresha.com/a/aurora-skyn-pompano-beach-s-cypress-rd-yx7qe4e9?pId=1231654&reviews=true',
+  discoveryCall: 'https://calendly.com/auroraskyn',
   instagram: 'https://www.instagram.com/auroraskyn',
   email: 'mailto:wellness@auroraskyn.com',
-  // Discovery Call: no Calendly link yet. Replace '#' below with the Calendly
-  // 15-minute Discovery Call URL when it is ready. Search for links.discoveryCall.
-  discoveryCall: '#',
+};
+
+const bookingLinks: BookingLinks = {
+  virtual: links.virtual,
+  inSpa: links.inSpa,
+  redEye: links.redEye,
+  teethWhitening: links.teethWhitening,
+  discoveryCall: links.discoveryCall,
 };
 
 const pathways = [
   ['01', 'The Virtual Skyn Experience', '60 minutes of private virtual guidance, with a personalized roadmap and journal to keep.', '#virtual'],
   ['02', 'In-Spa Skyn Care', 'Hands-on facial experiences in person, personalized to what your skin shows that day.', '#in-spa'],
   ['03', 'Still deciding?', 'Book a quiet 15-minute Discovery Call and I can help you choose where to begin.', '#discovery'],
-  ['04', 'Book on Fresha', 'See the full Aurora Skyn menu and reserve your appointment.', links.booking],
+  ['04', 'Book on Fresha', 'See the full Aurora Skyn menu and reserve your appointment.', links.inSpa],
 ];
 
 const processSteps = ['Investigate', 'Understand', 'Educate', 'Simplify', 'Personalize', 'Observe', 'Reassess'];
@@ -50,10 +63,10 @@ function Arrow() {
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
   const [slide, setSlide] = useState(0);
+  const [bookingOpen, setBookingOpen] = useState(false);
   const touchX = useRef<number | null>(null);
+  const bookingTriggerRef = useRef<HTMLButtonElement | null>(null);
   const reviewCount = testimonials.length;
 
   function goTo(direction: number) {
@@ -71,15 +84,25 @@ export default function Home() {
     touchX.current = null;
   }
 
-  function submitEmail(event: SyntheticEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (email.trim()) setSubscribed(true);
-  }
+  const openBooking = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+    bookingTriggerRef.current = event.currentTarget;
+    setMenuOpen(false);
+    setBookingOpen(true);
+  }, []);
+
+  const closeBooking = useCallback(() => {
+    setBookingOpen(false);
+    const trigger = bookingTriggerRef.current;
+    if (trigger && document.contains(trigger)) {
+      setTimeout(() => trigger.focus(), 0);
+    }
+  }, []);
 
   const review = testimonials[slide];
 
   return (
     <main>
+      <MailerLite />
       <header className="site-header">
         <a className="wordmark" href="#top" aria-label="Aurora Skyn home"><img src="/images/logo-light.png" alt="Aurora Skyn" /></a>
         <button className="menu-button" aria-expanded={menuOpen} aria-controls="site-nav" onClick={() => setMenuOpen(!menuOpen)}>
@@ -90,7 +113,7 @@ export default function Home() {
           <a href="#in-spa" onClick={() => setMenuOpen(false)}>In Spa</a>
           <a href="#testimonials" onClick={() => setMenuOpen(false)}>Reviews</a>
           <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
-          <a className="nav-cta" href={links.booking}>Book <Arrow /></a>
+          <button className="nav-cta" type="button" onClick={openBooking}>Book <Arrow /></button>
         </nav>
       </header>
 
@@ -100,7 +123,7 @@ export default function Home() {
           <h1>Going deeper than <em>skin deep.</em></h1>
           <p className="hero-lede">At Aurora Skyn, I help you understand what may be changing with your skin, simplify your routine, and make more confident decisions about what you’re using.</p>
           <div className="button-row">
-            <a className="button button-coral" href={links.booking}>Book the Virtual Skyn Experience</a>
+            <a className="button button-coral" href={links.virtual} target="_blank" rel="noopener noreferrer">Book the Virtual Skyn Experience</a>
             <a className="text-link" href="#in-spa">Explore In-Spa Care <Arrow /></a>
           </div>
         </div>
@@ -143,12 +166,20 @@ export default function Home() {
           <p>Choose the kind of support that makes sense for you right now.</p>
         </div>
         <div className="pathways">
-          {pathways.map(([number, title, description, href]) => (
-            <a className="pathway" href={href} key={title}>
-              <span>{number}</span><div><h3>{title}</h3><p>{description}</p></div><Arrow />
-            </a>
-          ))}
-          <a className="teeth-mini" href={links.booking}>Professional Teeth Whitening <Arrow /></a>
+          {pathways.map(([number, title, description, href]) => {
+            const external = href.startsWith('http');
+            return (
+              <a
+                className="pathway"
+                href={href}
+                key={title}
+                {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              >
+                <span>{number}</span><div><h3>{title}</h3><p>{description}</p></div><Arrow />
+              </a>
+            );
+          })}
+          <a className="teeth-mini" href={links.teethWhitening} target="_blank" rel="noopener noreferrer">Professional Teeth Whitening <Arrow /></a>
         </div>
       </section>
 
@@ -161,7 +192,7 @@ export default function Home() {
           <div className="price">$125 <span>60 minutes</span></div>
           <p className="clarity-lede">This is the full paid virtual experience, not a free consultation.</p>
           <p>Before we meet, I go through your pre-session intake, your bare-skin photos, your current routine and products, and the lifestyle and environment patterns that seem relevant. During our private session I educate, simplify, guide, and give you clear next steps you can actually follow.</p>
-          <a className="button button-berry" href={links.booking}>Book Your Virtual Skyn Experience</a>
+          <a className="button button-berry" href={links.virtual} target="_blank" rel="noopener noreferrer">Book Your Virtual Skyn Experience</a>
         </div>
         <div className="clarity-list">
           <div><b>01</b><span>Pre-session intake + bare-skin photos</span></div>
@@ -181,8 +212,7 @@ export default function Home() {
             <li>Whether virtual or in-person care makes more sense</li>
             <li>Exploring a custom combination if it fits</li>
           </ul>
-          {/* Calendly link pending — links.discoveryCall is a placeholder ('#'). Swap it when the booking link exists. */}
-          <a className="text-link dark" href={links.discoveryCall} data-calendly-pending="true">Book a Discovery Call <Arrow /></a>
+          <a className="text-link dark" href={links.discoveryCall} target="_blank" rel="noopener noreferrer">Book a Discovery Call <Arrow /></a>
           <p className="discovery-note">Some clients need one experience. Others benefit from a mix of virtual and in-person care. If you’re unsure, I can help you figure out the best place to begin.</p>
         </div>
       </section>
@@ -231,7 +261,7 @@ export default function Home() {
           </div>
           <button type="button" onClick={() => goTo(1)} aria-label="Next review">→</button>
         </div>
-        <a className="testimonial-more" href={links.reviews} target="_blank" rel="noreferrer">Read more reviews on Fresha <Arrow /></a>
+        <a className="testimonial-more" href={links.reviews} target="_blank" rel="noopener noreferrer">Read more reviews on Fresha <Arrow /></a>
       </section>
 
       <section id="in-spa" className="in-spa">
@@ -245,11 +275,11 @@ export default function Home() {
             <li>Facial experiences</li>
             <li>Professional teeth whitening — a secondary service</li>
           </ul>
-          <a className="button button-ivory" href={links.booking}>See the full menu on Fresha</a>
+          <a className="button button-ivory" href={links.inSpa} target="_blank" rel="noopener noreferrer">See the full menu on Fresha</a>
         </div>
       </section>
 
-      <aside className="teeth-strip"><p><span>Additional service</span><strong>Professional Teeth Whitening</strong>A quick, standalone service I offer alongside skincare.</p><a href={links.booking}>Book on Fresha <Arrow /></a></aside>
+      <aside className="teeth-strip"><p><span>Additional service</span><strong>Professional Teeth Whitening</strong>A quick, standalone service I offer alongside skincare.</p><a href={links.teethWhitening} target="_blank" rel="noopener noreferrer">Book on Fresha <Arrow /></a></aside>
 
       <section id="about" className="about">
         <div className="about-image"><img src="/images/jasmine-orange-dress.jpg" alt="Jasmine, founder of Aurora Skyn, outdoors in an orange floral dress" /></div>
@@ -272,22 +302,31 @@ export default function Home() {
 
       <section className="products">
         <div className="product-image"><img src="/images/products.jpg" alt="A collection of Aurora Skyn oils, scrubs, and skincare products" /></div>
-        <div className="product-copy"><p className="eyebrow navy">Purposeful products</p><h2>What goes on your skyn should have a reason for being there.</h2><p>I don’t want you buying a product simply because it’s trending. I recommend Aurora Skyn or professional products when they make sense for what your skin actually needs.</p><a className="text-link dark" href={links.booking}>Shop Aurora Skyn <Arrow /></a></div>
+        <div className="product-copy"><p className="eyebrow navy">Purposeful products</p><h2>What goes on your skyn should have a reason for being there.</h2><p>I don’t want you buying a product simply because it’s trending. I recommend Aurora Skyn or professional products when they make sense for what your skin actually needs.</p><a className="text-link dark" href={links.inSpa} target="_blank" rel="noopener noreferrer">Shop Aurora Skyn <Arrow /></a></div>
         <img className="product-detail" src="/images/oil-detail.jpg" alt="Aurora Skyn face oil and glass dropper on a mirror" />
       </section>
 
       <section className="education">
         <div><p className="eyebrow">Skyn notes</p><h2>Learn your skyn before you buy another product.</h2></div>
-        {subscribed ? <output className="form-success">You’re on the list. Skyn Notes are coming soon.</output> : <form onSubmit={submitEmail}><label htmlFor="email">Occasional education, thoughtful observations, and simpler routines.</label><div><input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email address" required /><button type="submit" aria-label="Join Skyn Notes">Join <Arrow /></button></div><small>MailerLite connection coming soon. No clutter, no constant promotions.</small></form>}
+        <div className="skyn-notes">
+          <p className="skyn-notes-intro">Occasional education, thoughtful observations, and simpler routines. No clutter, no constant promotions.</p>
+          <div className="ml-embedded" data-form="ylJLrW" />
+        </div>
       </section>
 
-      <section className="final-cta"><p className="eyebrow">Start with clarity.</p><h2>Still confused about<br />what your skyn needs?</h2><a className="button button-gold" href={links.booking}>Book the Virtual Skyn Experience</a></section>
+      <section className="final-cta">
+        <p className="eyebrow">Start with clarity.</p>
+        <h2>Still confused about<br />what your skyn needs?</h2>
+        <button className="button button-gold" type="button" onClick={openBooking}>Book with Aurora Skyn</button>
+      </section>
 
       <footer>
         <div className="footer-brand"><img src="/images/logo-light.png" alt="Aurora Skyn" /><p>Going deeper than skin deep.</p></div>
-        <div className="footer-links"><div><b>Explore</b><a href="#virtual">Virtual</a><a href="#in-spa">In Spa</a><a href="#about">About Jasmine</a><a href="#testimonials">Reviews</a></div><div><b>Connect</b><a href={links.instagram}>Instagram</a><a href={links.email}>wellness@auroraskyn.com</a><a href={links.booking}>Book on Fresha</a></div></div>
+        <div className="footer-links"><div><b>Explore</b><a href="#virtual">Virtual</a><a href="#in-spa">In Spa</a><a href="#about">About Jasmine</a><a href="#testimonials">Reviews</a></div><div><b>Connect</b><a href={links.instagram} target="_blank" rel="noopener noreferrer">Instagram</a><a href={links.email}>wellness@auroraskyn.com</a><a href={links.inSpa} target="_blank" rel="noopener noreferrer">Book on Fresha</a></div></div>
         <div className="footer-bottom"><p>© 2026 Aurora Skyn</p><div><span>Privacy</span><span>Disclaimer</span><span>Terms</span></div><p>Digital Experience by ONYX Creatrix</p></div>
       </footer>
+
+      <BookingModal open={bookingOpen} onClose={closeBooking} links={bookingLinks} />
     </main>
   );
 }
