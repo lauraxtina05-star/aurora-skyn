@@ -17,6 +17,7 @@ const links = {
   inSpa: 'https://www.fresha.com/book-now/aurora-skyn-hmifnwoh/services?lid=1297352&eid=2998182&share=true&pId=1231654',
   redEye: 'https://www.fresha.com/book-now/aurora-skyn-hmifnwoh/services?lid=1297352&eid=2998182&oiid=sv%3A28811121&share=true&pId=1231654',
   teethWhitening: 'https://www.fresha.com/book-now/aurora-skyn-hmifnwoh/services?lid=1297352&eid=2998182&oiid=sv%3A18176254&share=true&pId=1231654',
+  teethGems: 'https://www.fresha.com/book-now/aurora-skyn-hmifnwoh/services?lid=1297352&eid=2998182&oiid=sv%3A18175995&share=true&pId=1231654',
   // Dedicated Fresha product store — used for the "Shop Aurora Skyn" link only.
   products: 'https://www.fresha.com/store/aurora-skyn-store-mqm8e2hv?share=true&pId=1231654',
   reviews: 'https://www.fresha.com/a/aurora-skyn-pompano-beach-s-cypress-rd-yx7qe4e9?pId=1231654&reviews=true',
@@ -29,10 +30,7 @@ const bookingLinks: BookingLinks = {
   inSpa: links.inSpa,
   redEye: links.redEye,
   teethWhitening: links.teethWhitening,
-  // No confirmed Fresha service URL for Teeth Gems yet — checked the project and
-  // found none. Leave unset; the modal shows a clearly-marked "coming soon" state
-  // instead of guessing at a destination. Add the real URL here once it exists.
-  teethGems: undefined,
+  teethGems: links.teethGems,
 };
 
 // Calendly's own (non-hacky) color customization — see their embed docs.
@@ -305,7 +303,6 @@ export default function Home() {
               </a>
             );
           })}
-          <a className="teeth-mini" href={links.teethWhitening} target="_blank" rel="noopener noreferrer">Professional Teeth Whitening <ArrowIcon /></a>
         </div>
       </section>
 
@@ -400,11 +397,10 @@ export default function Home() {
         <div className="spa-copy">
           <p className="eyebrow gold">In-spa care</p>
           <h2>Focused, personal <em>in-spa care.</em></h2>
-          <p>I offer a smaller, considered set of in-person experiences and personalize each one based on your skin and what I’m seeing that day.</p>
+          <p>I offer personalized in-spa skincare experiences designed around what your skyn needs in the moment.</p>
           <ul>
             <li>In-spa skin care</li>
             <li>Facial experiences</li>
-            <li>Professional teeth whitening — a secondary service</li>
           </ul>
           <div className="button-row">
             <button className="button button-ivory" type="button" onClick={openBooking}>Explore In-Spa Experiences</button>
@@ -413,7 +409,7 @@ export default function Home() {
         </div>
       </section>
 
-      <aside className="teeth-strip"><p><span>Additional service</span><strong>Professional Teeth Whitening</strong>A quick, standalone service I offer alongside skincare.</p><a href={links.teethWhitening} target="_blank" rel="noopener noreferrer">View Availability <ArrowIcon /></a></aside>
+      <aside className="teeth-strip"><p><span>Additional service</span><strong>Teeth Gems</strong>A subtle sparkle added to your smile, available alongside skincare.</p><a href={links.teethGems} target="_blank" rel="noopener noreferrer">View Availability <ArrowIcon /></a></aside>
 
       <section id="about" className="about">
         <div ref={aboutImageRef} className={`about-image ${aboutImageRevealClass}`}>
