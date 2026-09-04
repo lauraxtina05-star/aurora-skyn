@@ -94,11 +94,13 @@ const testimonials = [
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [bookMenuOpen, setBookMenuOpen] = useState(false);
   const [slide, setSlide] = useState(0);
   const [bookingOpen, setBookingOpen] = useState(false);
   const [virtualOpen, setVirtualOpen] = useState(false);
   const [discoveryOpen, setDiscoveryOpen] = useState(false);
   const touchX = useRef<number | null>(null);
+  const bookMenuRef = useRef<HTMLDivElement | null>(null);
   const bookingTriggerRef = useRef<HTMLButtonElement | null>(null);
   const virtualTriggerRef = useRef<HTMLButtonElement | null>(null);
   const discoveryTriggerRef = useRef<HTMLButtonElement | null>(null);
@@ -143,6 +145,24 @@ export default function Home() {
       window.scrollTo(0, scrollY);
     };
   }, [anyModalOpen]);
+
+  useEffect(() => {
+    if (!bookMenuOpen) return;
+    function handlePointerDown(event: MouseEvent) {
+      if (bookMenuRef.current && !bookMenuRef.current.contains(event.target as Node)) {
+        setBookMenuOpen(false);
+      }
+    }
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') setBookMenuOpen(false);
+    }
+    document.addEventListener('mousedown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [bookMenuOpen]);
 
   // Soft, one-shot reveals for a handful of section moments as they scroll into view.
   const { ref: philosophyRef, className: philosophyRevealClass } = useReveal<HTMLElement>();
@@ -233,7 +253,41 @@ export default function Home() {
           <a href="#in-spa" onClick={() => setMenuOpen(false)}>In Spa</a>
           <a href="#testimonials" onClick={() => setMenuOpen(false)}>Reviews</a>
           <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
-          <button className="nav-cta" type="button" onClick={openBooking}>Book <ArrowIcon /></button>
+          <div className="nav-cta-wrap" ref={bookMenuRef}>
+            <button
+              className="nav-cta"
+              type="button"
+              aria-haspopup="true"
+              aria-expanded={bookMenuOpen}
+              onClick={() => setBookMenuOpen((open) => !open)}
+            >
+              Book <ArrowIcon />
+            </button>
+            {bookMenuOpen && (
+              <div className="nav-cta-menu" role="menu">
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={(event) => {
+                    openBooking(event);
+                    setBookMenuOpen(false);
+                  }}
+                >
+                  In-Spa Experience
+                </button>
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={(event) => {
+                    openVirtual(event);
+                    setBookMenuOpen(false);
+                  }}
+                >
+                  Virtual Experience
+                </button>
+              </div>
+            )}
+          </div>
         </nav>
       </header>
 
@@ -364,7 +418,7 @@ export default function Home() {
           <p className="eyebrow gold">Kind words</p>
           <h2>The Aurora Skyn Effect</h2>
           <p className="testimonial-rating">
-            <span aria-hidden="true">★★★★★</span> 5.0 on Fresha
+            <span aria-hidden="true">★★★★★</span> 5.0
           </p>
         </div>
         <div className="testimonial-stage" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} aria-live="polite">
