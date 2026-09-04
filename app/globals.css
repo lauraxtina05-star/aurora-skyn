@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
-:root { --navy:#1c2a4a; --ivory:#fff8ef; --sand:#f2dfd2; --sky:#8db9dc; --gold:#d4a638; --coral:#e4572e; --berry:#c21875; --purple:#5b2a6e; --ink:#17213b; --serif:var(--font-playfair),Georgia,serif; --sans:var(--font-open-sans),Arial,sans-serif; }
+:root { --navy:#1c2a4a; --ivory:#fff8ef; --sand:#f2dfd2; --sky:#8db9dc; --gold:#d4a638; --coral:#e4572e; --berry:#c21875; --purple:#5b2a6e; --ink:#17213b; --serif:var(--font-playfair,'Playfair Display'),Georgia,'Times New Roman',serif; --sans:var(--font-open-sans,'Open Sans'),'Helvetica Neue',Arial,sans-serif; }
 *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--ivory);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6} img{display:block;width:100%} a{color:inherit;text-decoration:none} button,input{font:inherit} h1,h2,h3,p{margin-top:0} h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:.95;letter-spacing:-.025em} em{font-weight:400} .eyebrow{font:600 .74rem/1 var(--sans);text-transform:uppercase;letter-spacing:.18em;color:var(--ivory)}.eyebrow.navy{color:var(--navy)}.eyebrow.gold{color:var(--gold)}
 .site-header{position:absolute;z-index:30;top:0;left:0;width:100%;height:104px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(22px,5vw,78px);color:white;border-bottom:1px solid rgba(255,255,255,.24)}.wordmark{display:flex;align-items:center;width:clamp(132px,12vw,190px)}.wordmark img{height:82px;object-fit:contain;object-position:left center}.nav{display:flex;align-items:center;gap:clamp(18px,2.6vw,42px);font-size:.82rem;text-transform:uppercase;letter-spacing:.1em}.nav a:not(.nav-cta){padding:8px 0;border-bottom:1px solid transparent}.nav a:hover{border-color:var(--gold)}.nav-cta{border:1px solid rgba(255,255,255,.6);padding:12px 20px;display:flex;gap:18px}.menu-button{display:none;background:none;border:0;color:white;text-transform:uppercase;letter-spacing:.12em;font-size:.8rem}
 .hero{min-height:850px;background:var(--navy);color:var(--ivory);display:grid;grid-template-columns:minmax(0,46%) minmax(400px,54%);position:relative;overflow:hidden}.hero-copy{padding:clamp(170px,20vh,225px) clamp(30px,5.2vw,90px) 180px;z-index:2}.hero h1{font-size:clamp(4.5rem,7vw,8.3rem);max-width:750px;margin:30px 0 34px}.hero h1 em{color:var(--gold)}.hero-lede{font-size:1.08rem;max-width:530px;color:#ece5db}.button-row{display:flex;align-items:center;gap:32px;margin-top:42px;flex-wrap:wrap}.button{display:inline-flex;min-height:54px;align-items:center;justify-content:center;padding:14px 25px;text-transform:uppercase;letter-spacing:.1em;font-weight:600;font-size:.75rem;transition:transform .2s,background .2s}.button:hover{transform:translateY(-2px)}.button-gold{background:var(--gold);color:var(--navy)}.text-link{color:var(--ivory);border-bottom:1px solid currentColor;padding-bottom:5px;font-size:.82rem;text-transform:uppercase;letter-spacing:.11em}.text-link span{margin-left:12px}.hero-image-wrap{position:relative;min-height:850px;clip-path:polygon(10% 0,100% 0,100% 94%,78% 100%,0 87%,4% 45%)}.hero-image-wrap:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(28,42,74,.2),transparent 32%)}.hero-image-wrap img{height:100%;object-fit:cover;object-position:52% center}.spark{position:absolute;z-index:2;left:5%;top:22%;font-size:2.8rem;color:var(--gold);animation:spin 12s linear infinite}.vertical-note{position:absolute;z-index:2;right:22px;bottom:12%;writing-mode:vertical-rl;font-size:.63rem;letter-spacing:.2em}
@@ -29,3 +29,90 @@ footer{background:var(--navy);color:var(--ivory);padding:80px clamp(24px,8vw,130
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal,.spark{animation:none}.button,.pathway{transition:none}}
 @media(max-width:900px){.site-header{height:82px}.wordmark{width:138px}.wordmark img{height:68px}.nav{top:82px}.portrait-story{min-height:auto;padding:130px 24px 100px;grid-template-columns:1.15fr .85fr}.portrait-story-main{height:600px}.portrait-story-copy{padding:30px 0}.portrait-story-detail{height:360px;grid-column:2;grid-row:1}.about-star{width:70vw}}
 @media(max-width:560px){.wordmark{width:118px}.portrait-story{padding:110px 20px 80px;grid-template-columns:1fr;gap:28px}.portrait-story-main{height:520px}.portrait-story-copy{padding:0}.portrait-story-copy:before{margin-bottom:24px}.portrait-quote{font-size:2.75rem}.portrait-story-detail{height:390px;grid-column:auto;grid-row:auto}.brand-stamp{width:145px}.footer-brand img{height:125px}}
+
+/* ============================================================
+   Revision pass — nav legibility, berry buttons, Virtual Skyn
+   Experience, Discovery Call, testimonial slider, orange-dress
+   About, seated-gold hero crop. Rules below intentionally
+   override earlier ones via source order.
+   ============================================================ */
+
+/* Nav: soft navy translucent backdrop with a slight blur so the wording
+   stays readable while the hero photo still shows through. */
+.site-header{background:linear-gradient(180deg,rgba(16,24,45,.62),rgba(16,24,45,.30));backdrop-filter:blur(10px) saturate(115%);-webkit-backdrop-filter:blur(10px) saturate(115%);border-bottom:1px solid rgba(255,255,255,.14)}
+.nav a:not(.nav-cta){text-shadow:0 1px 14px rgba(10,16,32,.35)}
+.wordmark img{filter:drop-shadow(0 1px 10px rgba(10,16,32,.35))}
+
+/* Buttons: elegant and readable, settling into Berry Magenta on
+   hover / focus / tap. Meant to feel intentional, not flashy. */
+.button{transition:transform .2s ease,background-color .28s ease,color .28s ease,box-shadow .28s ease}
+.button:hover,.button:focus-visible,.button:active{transform:translateY(-2px);background-color:var(--berry);color:#fff;box-shadow:0 14px 32px -16px rgba(194,24,117,.75)}
+.nav-cta{transition:background-color .28s ease,border-color .28s ease,color .28s ease}
+.nav-cta:hover,.nav-cta:focus-visible{background:var(--berry);border-color:var(--berry);color:#fff}
+.text-link{transition:color .25s ease,border-color .25s ease}
+.text-link:hover,.text-link:focus-visible{color:var(--berry);border-color:var(--berry)}
+.pathway:hover h3{color:var(--berry)}
+.teeth-mini:hover,.teeth-strip a:hover{color:var(--berry);border-color:var(--berry)}
+section[id]{scroll-margin-top:96px}
+
+/* Virtual experience: calmer price tag now that it reads "60 minutes". */
+.clarity .price span{color:var(--navy);opacity:.65}
+
+/* Discovery Call: a deliberately quiet band, never a headline offer. */
+.discovery{background:var(--ivory);padding:72px clamp(24px,8vw,130px) 92px}
+.discovery-inner{max-width:680px;margin:0 auto;border-top:1px solid rgba(28,42,74,.22);padding-top:34px}
+.discovery .eyebrow{margin-bottom:14px}
+.discovery-lede{font-family:var(--serif);font-weight:500;font-size:clamp(1.35rem,2.5vw,1.95rem);line-height:1.28;letter-spacing:-.015em;margin:0 0 22px;color:var(--navy)}
+.discovery-list{list-style:none;padding:0;margin:0 0 24px;display:flex;flex-wrap:wrap;gap:10px 28px}
+.discovery-list li{position:relative;padding-left:18px;font-size:.9rem}
+.discovery-list li:before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:50%;background:var(--coral)}
+.discovery .text-link.dark{display:inline-block}
+.discovery-note{margin:24px 0 0;font-size:.9rem;line-height:1.6;color:#6a655d;max-width:560px}
+
+/* Testimonials: one editorial review at a time, arrows + swipe. */
+.testimonials{position:relative;overflow:hidden;background:linear-gradient(140deg,#f9e0d0,var(--sand));padding:132px clamp(24px,8vw,130px) 118px;text-align:center}
+.testimonials:before{content:"";position:absolute;left:-6%;top:-72px;width:112%;height:120px;background:var(--ivory);border-radius:0 0 55% 55%}
+.testimonial-head{position:relative;margin-bottom:44px}
+.testimonial-head h2{font-size:clamp(3rem,4.6vw,5.4rem);margin:14px 0 0}
+.testimonial-head h2 em{color:var(--berry)}
+.testimonial-stage{position:relative;min-height:300px;max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:center}
+.testimonial-stage blockquote{margin:0;animation:reveal .5s ease both}
+.testimonial-stage p{font-family:var(--serif);font-weight:500;font-size:clamp(1.55rem,2.9vw,2.5rem);line-height:1.32;letter-spacing:-.02em;color:var(--navy);margin:0 0 30px}
+.testimonial-stage footer{display:flex;flex-direction:column;gap:5px;font-size:.72rem;text-transform:uppercase;letter-spacing:.16em}
+.testimonial-stage footer span:first-child{color:var(--coral);font-weight:600}
+.testimonial-controls{display:flex;align-items:center;justify-content:center;gap:24px;margin-top:44px}
+.testimonial-controls>button{width:52px;height:52px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(28,42,74,.4);background:transparent;border-radius:50%;font-size:1.1rem;color:var(--navy);cursor:pointer;transition:background-color .25s ease,color .25s ease,border-color .25s ease}
+.testimonial-controls>button:hover,.testimonial-controls>button:focus-visible{background:var(--berry);border-color:var(--berry);color:#fff}
+.testimonial-dots{display:flex;gap:10px}
+.testimonial-dots button{width:9px;height:9px;padding:0;border-radius:50%;border:0;background:rgba(28,42,74,.26);cursor:pointer;transition:background-color .25s ease,transform .25s ease}
+.testimonial-dots button.on{background:var(--berry);transform:scale(1.25)}
+.testimonial-more{display:inline-block;margin-top:38px;font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;border-bottom:1px solid currentColor;padding-bottom:5px;transition:color .25s ease,border-color .25s ease}
+.testimonial-more:hover,.testimonial-more:focus-visible{color:var(--berry);border-color:var(--berry)}
+
+/* About: the orange floral portrait is landscape, so it gets a soft wide arc. */
+.about-image{height:auto;aspect-ratio:4/3;border-radius:190px 190px 26px 26px / 128px 128px 18px 18px}
+.about-image img{height:100%;object-fit:cover;object-position:26% 32%}
+
+/* Hero: seated gold portrait — keep Jasmine's face clear of the crop. */
+.hero-image-wrap img{object-position:50% 16%}
+.hero h1{font-size:clamp(3.6rem,5.6vw,6.6rem);max-width:13ch;text-wrap:balance}
+
+@media(max-width:900px){
+  .site-header{background:rgba(16,24,45,.74);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .hero-image-wrap img{object-position:50% 13%}
+  .testimonials{padding:100px 24px 88px}
+  .testimonial-stage{min-height:340px}
+  .discovery{padding:60px 24px 78px}
+  .about-image{aspect-ratio:4/3}
+}
+@media(max-width:560px){
+  .hero-image-wrap img{object-position:50% 11%}
+  .testimonials{padding:88px 20px 80px}
+  .testimonial-stage{min-height:380px}
+  .testimonial-stage p{font-size:1.32rem}
+  .testimonial-controls{gap:16px}
+  .testimonial-controls>button{width:46px;height:46px}
+  .discovery-list{flex-direction:column;gap:9px}
+  .about-image{aspect-ratio:5/4}
+}
+@media(prefers-reduced-motion:reduce){.testimonial-stage blockquote{animation:none}.testimonial-dots button{transition:none}}
