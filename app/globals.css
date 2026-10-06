@@ -345,3 +345,5 @@ dialog.booking-modal.calendly-modal[open]{
 
 /* ---------- Footer: phone + hours ---------- */
 .footer-hours-label{margin-top:.375rem;font-size:.68rem;text-transform:uppercase;letter-spacing:.15em;color:var(--gold)}
+
+.google-review-actions{display:flex;flex-wrap:wrap;justify-content:center;column-gap:28px}

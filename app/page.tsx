@@ -21,7 +21,7 @@ const links = {
   // Dedicated Fresha product store — used for the "Shop Aurora Skyn" link only.
   products: 'https://www.fresha.com/store/aurora-skyn-store-mqm8e2hv?share=true&pId=1231654',
   bambuEarthAffiliate: 'https://bambuearth.com/discount/AURORA20',
-  reviews: 'https://www.fresha.com/a/aurora-skyn-pompano-beach-s-cypress-rd-yx7qe4e9?pId=1231654&reviews=true',
+  googleReviews: 'https://maps.app.goo.gl/yQdoh4L78U7hGsfC8?g_st=ic',
   discoveryCall: 'https://calendly.com/auroraskyn/discoverycall?back=1&month=2026-09',
   instagram: 'https://www.instagram.com/auroraskyn',
   email: 'mailto:wellness@auroraskyn.com',
@@ -444,7 +444,10 @@ export default function Home() {
           </div>
           <button type="button" onClick={() => goTo(1)} aria-label="Next review"><ChevronIcon direction="right" /></button>
         </div>
-        <a className="testimonial-more" href={links.reviews} target="_blank" rel="noopener noreferrer">Read more reviews on Fresha <ArrowIcon /></a>
+        <div className="google-review-actions">
+          <a className="testimonial-more" href={links.googleReviews} target="_blank" rel="noopener noreferrer">Read Google Reviews <ArrowIcon /></a>
+          <a className="testimonial-more" href={links.googleReviews} target="_blank" rel="noopener noreferrer">Leave a Google Review <ArrowIcon /></a>
+        </div>
       </section>
 
       <section id="in-spa" className="in-spa">
