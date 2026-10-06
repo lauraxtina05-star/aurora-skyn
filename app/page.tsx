@@ -42,7 +42,7 @@ function withCalendlyAccent(url: string) {
 }
 
 const pathways = [
-  ['01', 'Root to Radiance', 'A private 60-minute virtual skyn session with personalized guidance, a roadmap, and journal to keep.', '#virtual'],
+  ['01', 'Root to Radiance', 'A private 60-minute virtual Skyn session with a Personalized Skyn Wellness Roadmap and Aurora Skyn Journal to keep.', '#virtual'],
   ['02', 'In-Spa Skyn Care', 'Hands-on facial experiences in person, personalized to what your skin shows that day.', '#in-spa'],
   ['03', 'Still deciding?', 'Book a quiet 15-minute Discovery Call and I can help you choose where to begin.', '#discovery'],
   ['04', 'View the Full In-Spa Menu', 'Browse every Aurora Skyn in-spa appointment and choose a time.', links.inSpa],
@@ -364,7 +364,7 @@ export default function Home() {
       <section id="virtual" ref={virtualRef} className={`clarity ${virtualRevealClass}`}>
         <div className="clarity-art" aria-hidden="true"><img src="/images/face-outline.png" alt="" /></div>
         <div className="clarity-main">
-          <p className="eyebrow">A private virtual skyn session</p>
+          <p className="eyebrow">A Private Virtual Skyn Session</p>
           <h2>Root to<br /><em>Radiance</em></h2>
           <p className="subhead">For when you’re tired of guessing what your skyn needs.</p>
           <div className="price">$125 <span>60 minutes · Virtual</span></div>
