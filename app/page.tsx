@@ -9,7 +9,7 @@ import { ArrowIcon, ChevronIcon } from '@/components/icons';
 import { useReveal } from '@/hooks/use-reveal';
 
 const links = {
-  // The paid Virtual Skyn Experience books directly through Calendly, not Fresha.
+  // Root to Radiance books directly through Calendly, not Fresha.
   virtual: 'https://calendly.com/auroraskyn/vse?back=1&month=2026-09',
   // In-person services still book through Fresha (kept as the secondary booking
   // system — see the booking modal). General services list, no single service
@@ -20,6 +20,7 @@ const links = {
   teethGems: 'https://www.fresha.com/book-now/aurora-skyn-hmifnwoh/services?lid=1297352&eid=2998182&oiid=sv%3A18175995&share=true&pId=1231654',
   // Dedicated Fresha product store — used for the "Shop Aurora Skyn" link only.
   products: 'https://www.fresha.com/store/aurora-skyn-store-mqm8e2hv?share=true&pId=1231654',
+  bambuEarthAffiliate: 'https://bambuearth.com/discount/AURORA20',
   reviews: 'https://www.fresha.com/a/aurora-skyn-pompano-beach-s-cypress-rd-yx7qe4e9?pId=1231654&reviews=true',
   discoveryCall: 'https://calendly.com/auroraskyn/discoverycall?back=1&month=2026-09',
   instagram: 'https://www.instagram.com/auroraskyn',
@@ -41,7 +42,7 @@ function withCalendlyAccent(url: string) {
 }
 
 const pathways = [
-  ['01', 'The Virtual Skyn Experience', '60 minutes of private virtual guidance, with a personalized roadmap and journal to keep.', '#virtual'],
+  ['01', 'Root to Radiance', 'A private 60-minute virtual skyn session with personalized guidance, a roadmap, and journal to keep.', '#virtual'],
   ['02', 'In-Spa Skyn Care', 'Hands-on facial experiences in person, personalized to what your skin shows that day.', '#in-spa'],
   ['03', 'Still deciding?', 'Book a quiet 15-minute Discovery Call and I can help you choose where to begin.', '#discovery'],
   ['04', 'View the Full In-Spa Menu', 'Browse every Aurora Skyn in-spa appointment and choose a time.', links.inSpa],
@@ -283,7 +284,7 @@ export default function Home() {
                     setBookMenuOpen(false);
                   }}
                 >
-                  Virtual Experience
+                  Root to Radiance
                 </button>
               </div>
             )}
@@ -297,7 +298,7 @@ export default function Home() {
           <h1>Going deeper than <em>skin deep.</em></h1>
           <p className="hero-lede">At Aurora Skyn, I help you understand what may be changing with your skin, simplify your routine, and make more confident decisions about what you’re using.</p>
           <div className="button-row">
-            <button className="button button-coral" type="button" onClick={openVirtual}>Book the Virtual Skyn Experience</button>
+            <button className="button button-coral" type="button" onClick={openVirtual}>Book Root to Radiance</button>
             <a className="text-link" href="#in-spa">Explore In-Spa Care <ArrowIcon /></a>
           </div>
         </div>
@@ -363,20 +364,20 @@ export default function Home() {
       <section id="virtual" ref={virtualRef} className={`clarity ${virtualRevealClass}`}>
         <div className="clarity-art" aria-hidden="true"><img src="/images/face-outline.png" alt="" /></div>
         <div className="clarity-main">
-          <p className="eyebrow">The main virtual experience</p>
-          <h2>The Virtual Skyn<br /><em>Experience</em></h2>
-          <p className="subhead">A 60-minute private virtual session, plus everything I review before we meet.</p>
-          <div className="price">$125 <span>60 minutes</span></div>
-          <p>Before we meet, I go through your pre-session intake, your bare-skin photos, your current routine and products, and the lifestyle and environment patterns that seem relevant. During our private session I educate, simplify, guide, and give you clear next steps you can actually follow.</p>
-          <button className="button button-berry" type="button" onClick={openVirtual}>Book Your Virtual Skyn Experience</button>
+          <p className="eyebrow">A private virtual skyn session</p>
+          <h2>Root to<br /><em>Radiance</em></h2>
+          <p className="subhead">For when you’re tired of guessing what your skyn needs.</p>
+          <div className="price">$125 <span>60 minutes · Virtual</span></div>
+          <p>Root to Radiance is a private virtual skincare session where I take a deeper look at your current routine, products, skin concerns, and the patterns you’ve noticed surrounding your skyn. Before we meet, I review your questionnaire, bare-skyn photos, and current products so our appointment can go deeper than a basic consultation. You’ll leave with a better understanding of your skyn, a simpler path forward where appropriate, and clear, personalized next steps.</p>
+          <button className="button button-berry" type="button" onClick={openVirtual}>Book Root to Radiance</button>
         </div>
         <div className="clarity-photo">
           <img src="/images/jasmine-virtual-skyn.jpg" alt="Jasmine glancing through green foliage in a colorful floral top" />
         </div>
         <div className="clarity-list">
-          <div><b>01</b><span>Pre-session intake + bare-skin photos</span></div>
-          <div><b>02</b><span>Product and routine review</span></div>
-          <div><b>03</b><span>Private virtual session</span></div>
+          <div><b>01</b><span>Pre-Session Questionnaire + Bare-Skyn Photos</span></div>
+          <div><b>02</b><span>Current Product + Routine Review</span></div>
+          <div><b>03</b><span>Private 60-Minute Virtual Session</span></div>
           <div><b>04</b><span>Personalized Skyn Wellness Roadmap</span></div>
           <div><b>05</b><span>Aurora Skyn Journal</span></div>
         </div>
@@ -491,7 +492,7 @@ export default function Home() {
 
       <section className="products">
         <div className="product-image"><img src="/images/products.jpg" alt="A collection of Aurora Skyn oils, scrubs, and skincare products" /></div>
-        <div className="product-copy"><p className="eyebrow navy">Purposeful products</p><h2>What goes on your skyn should have a reason for being there.</h2><p>I don’t want you buying a product simply because it’s trending. I recommend Aurora Skyn or professional products when they make sense for what your skin actually needs.</p><a className="text-link dark" href={links.products} target="_blank" rel="noopener noreferrer">Shop Aurora Skyn <ArrowIcon /></a></div>
+        <div className="product-copy"><p className="eyebrow navy">Purposeful products</p><h2>What goes on your skyn should have a reason for being there.</h2><p>I don’t want you buying a product simply because it’s trending. I recommend Aurora Skyn or professional products when they make sense for what your skin actually needs.</p><a className="text-link dark" href={links.products} target="_blank" rel="noopener noreferrer">Shop Aurora Skyn <ArrowIcon /></a><div className="partner-resource"><p className="eyebrow navy">Partner resource</p><h3>Shop your Bambu Earth favorites</h3><p>Receive 20% off through my exclusive Bambu Earth partner link.</p><a className="text-link dark" href={links.bambuEarthAffiliate} target="_blank" rel="noopener noreferrer">Shop Bambu Earth <ArrowIcon /></a><small>Aurora Skyn may earn from purchases made through this link.</small></div></div>
         <img className="product-detail" src="/images/oil-detail.jpg" alt="Aurora Skyn face oil and glass dropper on a mirror" />
       </section>
 
@@ -524,8 +525,8 @@ export default function Home() {
       <CalendlyModal
         open={virtualOpen}
         onClose={closeVirtual}
-        title="Book Your Virtual Skyn Experience"
-        subtitle="Choose a time that works for you and we’ll take it from there."
+        title="Book Root to Radiance"
+        subtitle="Choose a time for your private 60-minute virtual skyn session."
         calendlyUrl={withCalendlyAccent(links.virtual)}
       />
       <CalendlyModal
