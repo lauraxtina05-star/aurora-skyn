@@ -3,8 +3,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import BookingModal, { type BookingLinks } from '@/components/booking-modal';
-import CalPopup, { rootToRadianceCalAttributes } from '@/components/cal-popup';
-import CalendlyModal from '@/components/calendly-modal';
+import CalPopup, { discoveryCallCalAttributes, rootToRadianceCalAttributes } from '@/components/cal-popup';
 import MailerLite from '@/components/mailerlite';
 import { ArrowIcon, ChevronIcon } from '@/components/icons';
 import { useReveal } from '@/hooks/use-reveal';
@@ -21,7 +20,6 @@ const links = {
   products: 'https://www.fresha.com/store/aurora-skyn-store-mqm8e2hv?share=true&pId=1231654',
   bambuEarthAffiliate: 'https://bambuearth.com/discount/AURORA20',
   googleReviews: 'https://maps.app.goo.gl/yQdoh4L78U7hGsfC8?g_st=ic',
-  discoveryCall: 'https://calendly.com/auroraskyn/discoverycall?back=1&month=2026-09',
   instagram: 'https://www.instagram.com/auroraskyn',
   email: 'mailto:wellness@auroraskyn.com',
 };
@@ -32,13 +30,6 @@ const bookingLinks: BookingLinks = {
   teethWhitening: links.teethWhitening,
   teethGems: links.teethGems,
 };
-
-// Calendly's own (non-hacky) color customization — see their embed docs.
-const CALENDLY_ACCENT_COLOR = 'c21875'; // Berry Magenta, no leading #
-
-function withCalendlyAccent(url: string) {
-  return `${url}&primary_color=${CALENDLY_ACCENT_COLOR}`;
-}
 
 const pathways = [
   ['01', 'Root to Radiance', 'A private 60-minute virtual skin session with a Personalized Skyn Wellness Roadmap and Aurora Skyn Journal to keep.', '#virtual'],
@@ -97,22 +88,14 @@ export default function Home() {
   const [bookMenuOpen, setBookMenuOpen] = useState(false);
   const [slide, setSlide] = useState(0);
   const [bookingOpen, setBookingOpen] = useState(false);
-  const [discoveryOpen, setDiscoveryOpen] = useState(false);
   const touchX = useRef<number | null>(null);
   const bookMenuRef = useRef<HTMLDivElement | null>(null);
   const bookingTriggerRef = useRef<HTMLButtonElement | null>(null);
-  const discoveryTriggerRef = useRef<HTMLButtonElement | null>(null);
   const reviewCount = testimonials.length;
-  const anyModalOpen = bookingOpen || discoveryOpen;
+  const anyModalOpen = bookingOpen;
 
-  // Single source of truth for the background scroll lock. Each modal
-  // (BookingModal and the Discovery calendar modal) only ever manages its
-  // own open state — this is the only place that touches document.body, so
-  // there's no race between separate lock/unlock effects when one modal
-  // hands off to another (e.g. the in-spa modal's Discovery row closing
-  // itself and opening the Discovery calendar modal in the same update:
-  // anyModalOpen stays true the whole time, so this effect doesn't even
-  // re-run). Uses position:fixed rather than bare overflow:hidden, which is
+  // Single source of truth for the in-spa modal's background scroll lock.
+  // Uses position:fixed rather than bare overflow:hidden, which is
   // the reliable cross-browser way to stop background scroll on iOS Safari,
   // and restores the exact scroll position when the last modal closes.
   useEffect(() => {
@@ -198,28 +181,6 @@ export default function Home() {
     if (trigger && document.contains(trigger)) {
       setTimeout(() => trigger.focus(), 0);
     }
-  }, []);
-
-  const openDiscovery = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
-    discoveryTriggerRef.current = event.currentTarget;
-    setMenuOpen(false);
-    setDiscoveryOpen(true);
-  }, []);
-
-  const closeDiscovery = useCallback(() => {
-    setDiscoveryOpen(false);
-    const trigger = discoveryTriggerRef.current;
-    if (trigger && document.contains(trigger)) {
-      setTimeout(() => trigger.focus(), 0);
-    }
-  }, []);
-
-  // The in-spa modal's Discovery Call row hands off to the same Discovery
-  // calendar modal, but there's no click event to capture a trigger button
-  // from — return focus to the in-spa modal's own trigger instead.
-  const openDiscoveryFromBookingModal = useCallback(() => {
-    discoveryTriggerRef.current = bookingTriggerRef.current;
-    setDiscoveryOpen(true);
   }, []);
 
   const review = testimonials[slide];
@@ -373,7 +334,7 @@ export default function Home() {
             <li>Whether virtual or in-person care makes more sense</li>
             <li>Exploring a custom combination if it fits</li>
           </ul>
-          <button className="text-link dark" type="button" onClick={openDiscovery}>Book a Discovery Call <ArrowIcon /></button>
+          <button className="text-link dark" type="button" {...discoveryCallCalAttributes}>Book a Discovery Call <ArrowIcon /></button>
           <p className="discovery-note">Some clients need one experience. Others benefit from a mix of virtual and in-person care. If you’re unsure, I can help you figure out the best place to begin.</p>
         </div>
       </section>
@@ -497,7 +458,7 @@ export default function Home() {
       <section className="final-cta">
         <p className="eyebrow">Start with clarity.</p>
         <h2>Still confused about<br />what your skin needs?</h2>
-        <button className="button button-gold" type="button" onClick={openDiscovery}>Book a Discovery Call</button>
+        <button className="button button-gold" type="button" {...discoveryCallCalAttributes}>Book a Discovery Call</button>
       </section>
 
       <footer>
@@ -509,17 +470,9 @@ export default function Home() {
       <BookingModal
         open={bookingOpen}
         onClose={closeBooking}
-        onOpenDiscovery={openDiscoveryFromBookingModal}
         links={bookingLinks}
       />
       <CalPopup />
-      <CalendlyModal
-        open={discoveryOpen}
-        onClose={closeDiscovery}
-        title="Book Your Discovery Call"
-        subtitle="Choose a time for a complimentary 15-minute conversation with Jasmine."
-        calendlyUrl={withCalendlyAccent(links.discoveryCall)}
-      />
     </main>
   );
 }

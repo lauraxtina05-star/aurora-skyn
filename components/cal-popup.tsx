@@ -14,6 +14,7 @@ declare global {
 }
 
 const NAMESPACE = 'root-to-radiance-experience';
+const DISCOVERY_NAMESPACE = 'discoverycall';
 let initialized = false;
 
 function bootstrapCal() {
@@ -54,6 +55,12 @@ export const rootToRadianceCalAttributes = {
   'data-cal-config': JSON.stringify({ layout: 'month_view', useSlotsViewOnSmallScreen: 'true', theme: 'light' }),
 };
 
+export const discoveryCallCalAttributes = {
+  'data-cal-link': 'auroraskyn/discoverycall',
+  'data-cal-namespace': DISCOVERY_NAMESPACE,
+  'data-cal-config': JSON.stringify({ layout: 'month_view', useSlotsViewOnSmallScreen: 'true', theme: 'light' }),
+};
+
 export default function CalPopup() {
   useEffect(() => {
     if (initialized) return;
@@ -62,6 +69,13 @@ export default function CalPopup() {
     Cal.config = Cal.config || {};
     Cal.config.forwardQueryParams = true;
     Cal.ns?.[NAMESPACE]?.('ui', {
+      theme: 'light',
+      cssVarsPerTheme: { light: { 'cal-brand': '#C8431C' } },
+      hideEventTypeDetails: false,
+      layout: 'month_view',
+    });
+    Cal('init', DISCOVERY_NAMESPACE, { origin: 'https://app.cal.com' });
+    Cal.ns?.[DISCOVERY_NAMESPACE]?.('ui', {
       theme: 'light',
       cssVarsPerTheme: { light: { 'cal-brand': '#C8431C' } },
       hideEventTypeDetails: false,
