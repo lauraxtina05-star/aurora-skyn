@@ -3,14 +3,13 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import BookingModal, { type BookingLinks } from '@/components/booking-modal';
+import CalModal from '@/components/cal-modal';
 import CalendlyModal from '@/components/calendly-modal';
 import MailerLite from '@/components/mailerlite';
 import { ArrowIcon, ChevronIcon } from '@/components/icons';
 import { useReveal } from '@/hooks/use-reveal';
 
 const links = {
-  // Root to Radiance books directly through Calendly, not Fresha.
-  virtual: 'https://calendly.com/auroraskyn/vse?back=1&month=2026-09',
   // In-person services still book through Fresha (kept as the secondary booking
   // system — see the booking modal). General services list, no single service
   // pre-selected — also used for the broad "in-spa / explore all / shop" entries.
@@ -109,11 +108,11 @@ export default function Home() {
   const anyModalOpen = bookingOpen || virtualOpen || discoveryOpen;
 
   // Single source of truth for the background scroll lock. Each modal
-  // (BookingModal, and both CalendlyModal instances) only ever manages its
+  // (BookingModal and both calendar modal instances) only ever manages its
   // own open state — this is the only place that touches document.body, so
   // there's no race between separate lock/unlock effects when one modal
   // hands off to another (e.g. the in-spa modal's Discovery row closing
-  // itself and opening the Discovery Calendly modal in the same update:
+  // itself and opening the Discovery calendar modal in the same update:
   // anyModalOpen stays true the whole time, so this effect doesn't even
   // re-run). Uses position:fixed rather than bare overflow:hidden, which is
   // the reliable cross-browser way to stop background scroll on iOS Safari,
@@ -232,7 +231,7 @@ export default function Home() {
   }, []);
 
   // The in-spa modal's Discovery Call row hands off to the same Discovery
-  // Calendly modal, but there's no click event to capture a trigger button
+  // calendar modal, but there's no click event to capture a trigger button
   // from — return focus to the in-spa modal's own trigger instead.
   const openDiscoveryFromBookingModal = useCallback(() => {
     discoveryTriggerRef.current = bookingTriggerRef.current;
@@ -451,7 +450,10 @@ export default function Home() {
       </section>
 
       <section id="in-spa" className="in-spa">
-        <div className="spa-image"><img src="/images/treatment.jpg" alt="A client receiving a relaxing facial treatment at Aurora Skyn" /></div>
+        <div className="spa-image">
+          <img className="spa-image-primary" src="/images/treatment.jpg" alt="A client receiving a relaxing facial treatment at Aurora Skyn" />
+          <img className="spa-image-detail" src="/images/gua-sha-facial.jpg" alt="Close-up of a gua sha facial massage with an iridescent tool at Aurora Skyn" loading="lazy" />
+        </div>
         <div className="spa-copy">
           <p className="eyebrow gold">In-spa care</p>
           <h2>Focused, personal <em>in-spa care.</em></h2>
@@ -490,7 +492,10 @@ export default function Home() {
 
       <section className={`ritual ${ritualRevealClass}`} id="ritual" ref={ritualRef}>
         <div className="ritual-copy"><p className="eyebrow gold">Sound + ritual</p><h2>Skincare can be a place to slow down, too.</h2><p>Sound, breath, and sensory ritual are part of the way I create space for relaxation during select Aurora Skyn experiences. For me, taking care of your skin can also be a moment to reconnect with yourself.</p></div>
-        <img src="/images/sound-bath-action.jpg" alt="Jasmine seated with crystal singing bowls in a warm, calm room" />
+        <div className="ritual-gallery">
+          <img className="ritual-primary" src="/images/sound-bath-action.jpg" alt="Jasmine seated with crystal singing bowls in a warm, calm room" />
+          <img className="ritual-session" src="/images/ritual-session.jpg" alt="Jasmine guiding a client through a ritual during an Aurora Skyn treatment" loading="lazy" />
+        </div>
       </section>
 
       <section className="products">
@@ -525,12 +530,11 @@ export default function Home() {
         onOpenDiscovery={openDiscoveryFromBookingModal}
         links={bookingLinks}
       />
-      <CalendlyModal
+      <CalModal
         open={virtualOpen}
         onClose={closeVirtual}
         title="Book Root to Radiance"
         subtitle="Choose a time for your private 60-minute virtual skin session."
-        calendlyUrl={withCalendlyAccent(links.virtual)}
       />
       <CalendlyModal
         open={discoveryOpen}
