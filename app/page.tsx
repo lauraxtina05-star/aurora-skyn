@@ -3,7 +3,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import BookingModal, { type BookingLinks } from '@/components/booking-modal';
-import CalModal from '@/components/cal-modal';
+import CalPopup, { rootToRadianceCalAttributes } from '@/components/cal-popup';
 import CalendlyModal from '@/components/calendly-modal';
 import MailerLite from '@/components/mailerlite';
 import { ArrowIcon, ChevronIcon } from '@/components/icons';
@@ -97,18 +97,16 @@ export default function Home() {
   const [bookMenuOpen, setBookMenuOpen] = useState(false);
   const [slide, setSlide] = useState(0);
   const [bookingOpen, setBookingOpen] = useState(false);
-  const [virtualOpen, setVirtualOpen] = useState(false);
   const [discoveryOpen, setDiscoveryOpen] = useState(false);
   const touchX = useRef<number | null>(null);
   const bookMenuRef = useRef<HTMLDivElement | null>(null);
   const bookingTriggerRef = useRef<HTMLButtonElement | null>(null);
-  const virtualTriggerRef = useRef<HTMLButtonElement | null>(null);
   const discoveryTriggerRef = useRef<HTMLButtonElement | null>(null);
   const reviewCount = testimonials.length;
-  const anyModalOpen = bookingOpen || virtualOpen || discoveryOpen;
+  const anyModalOpen = bookingOpen || discoveryOpen;
 
   // Single source of truth for the background scroll lock. Each modal
-  // (BookingModal and both calendar modal instances) only ever manages its
+  // (BookingModal and the Discovery calendar modal) only ever manages its
   // own open state — this is the only place that touches document.body, so
   // there's no race between separate lock/unlock effects when one modal
   // hands off to another (e.g. the in-spa modal's Discovery row closing
@@ -202,20 +200,6 @@ export default function Home() {
     }
   }, []);
 
-  const openVirtual = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
-    virtualTriggerRef.current = event.currentTarget;
-    setMenuOpen(false);
-    setVirtualOpen(true);
-  }, []);
-
-  const closeVirtual = useCallback(() => {
-    setVirtualOpen(false);
-    const trigger = virtualTriggerRef.current;
-    if (trigger && document.contains(trigger)) {
-      setTimeout(() => trigger.focus(), 0);
-    }
-  }, []);
-
   const openDiscovery = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     discoveryTriggerRef.current = event.currentTarget;
     setMenuOpen(false);
@@ -278,10 +262,8 @@ export default function Home() {
                 <button
                   type="button"
                   role="menuitem"
-                  onClick={(event) => {
-                    openVirtual(event);
-                    setBookMenuOpen(false);
-                  }}
+                  onClick={() => setBookMenuOpen(false)}
+                  {...rootToRadianceCalAttributes}
                 >
                   Root to Radiance
                 </button>
@@ -297,7 +279,7 @@ export default function Home() {
           <h1>Going deeper than <em>skin deep.</em></h1>
           <p className="hero-lede">At Aurora Skyn, I help you understand what may be changing with your skin, simplify your routine, and make more confident decisions about what you’re using.</p>
           <div className="button-row">
-            <button className="button button-coral" type="button" onClick={openVirtual}>Book Root to Radiance</button>
+            <button className="button button-coral" type="button" {...rootToRadianceCalAttributes}>Book Root to Radiance</button>
             <a className="text-link" href="#in-spa">Explore In-Spa Care <ArrowIcon /></a>
           </div>
         </div>
@@ -368,7 +350,7 @@ export default function Home() {
           <p className="subhead">For when you’re tired of guessing what your skin needs.</p>
           <div className="price">$125 <span>60 minutes · Virtual</span></div>
           <p>Root to Radiance is a private virtual skincare session where I take a deeper look at your current routine, products, skin concerns, and the patterns you’ve noticed surrounding your skin. Before we meet, I review your questionnaire, bare-skin photos, and current products so our appointment can go deeper than a basic consultation. You’ll leave with a better understanding of your skin, a simpler path forward where appropriate, and clear, personalized next steps.</p>
-          <button className="button button-berry" type="button" onClick={openVirtual}>Book Root to Radiance</button>
+          <button className="button button-berry" type="button" {...rootToRadianceCalAttributes}>Book Root to Radiance</button>
         </div>
         <div className="clarity-photo">
           <img src="/images/jasmine-virtual-skyn.jpg" alt="Jasmine glancing through green foliage in a colorful floral top" />
@@ -530,12 +512,7 @@ export default function Home() {
         onOpenDiscovery={openDiscoveryFromBookingModal}
         links={bookingLinks}
       />
-      <CalModal
-        open={virtualOpen}
-        onClose={closeVirtual}
-        title="Book Root to Radiance"
-        subtitle="Choose a time for your private 60-minute virtual skin session."
-      />
+      <CalPopup />
       <CalendlyModal
         open={discoveryOpen}
         onClose={closeDiscovery}

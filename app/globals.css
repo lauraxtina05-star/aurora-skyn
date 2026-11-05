@@ -333,13 +333,6 @@ dialog.booking-modal.calendly-modal[open]{
 .calendly-widget{flex:1 1 auto;min-height:0;width:100%;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .calendly-widget iframe{width:100%!important;height:100%!important;min-height:100%!important;border:0;display:block}
 
-/* Root to Radiance uses Cal.com in the same branded modal shell. The embed is
-   initialized once after hydration and remains mounted between open/close cycles. */
-dialog.booking-modal.cal-modal[open]{display:flex;flex-direction:column;height:min(92dvh,900px);max-height:min(92dvh,900px);overflow:hidden}
-.cal-head{flex:0 0 auto;margin-bottom:18px}
-.cal-widget{flex:1 1 auto;min-height:560px;width:100%;overflow:hidden}
-.cal-widget iframe{width:100%!important;height:100%!important;min-height:560px!important;border:0;display:block}
-
 @media(max-width:768px){
   dialog.booking-modal.calendly-modal[open]{
     width:100%;
@@ -352,9 +345,6 @@ dialog.booking-modal.cal-modal[open]{display:flex;flex-direction:column;height:m
     padding:calc(20px + env(safe-area-inset-top)) 18px calc(14px + env(safe-area-inset-bottom));
   }
   .calendly-modal .booking-close{top:calc(12px + env(safe-area-inset-top))}
-  dialog.booking-modal.cal-modal[open]{width:100%;max-width:100%;height:100dvh;max-height:100dvh;margin:0;inset:auto 0 0 0;border-radius:24px 24px 0 0;padding:calc(20px + env(safe-area-inset-top)) 18px calc(14px + env(safe-area-inset-bottom))}
-  .cal-modal .booking-close{top:calc(12px + env(safe-area-inset-top))}
-  .cal-widget,.cal-widget iframe{min-height:620px!important}
 }
 
 /* ---------- Footer: phone + hours ---------- */
